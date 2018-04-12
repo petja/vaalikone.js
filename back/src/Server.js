@@ -11,6 +11,8 @@ const asyncMiddleware = fn => (req, res, next) => {
 // Static
 app.use(express.static(path.join(__dirname, '../../front/dist')))
 
+app.get('/api/options', asyncMiddleware(APIController.GetOptions))
+app.get('/api/questions', asyncMiddleware(APIController.GetQuestions))
 app.get('/api/candidates', asyncMiddleware(APIController.GetCandidates))
 app.get('/api/parties', asyncMiddleware(APIController.GetParties))
 app.get('/api/results', asyncMiddleware(APIController.GetResults))

@@ -17,4 +17,5 @@ node_modules/
 # log files
 *.log
 
+back/dist/
 *.bundle.js

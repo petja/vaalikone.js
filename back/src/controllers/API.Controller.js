@@ -1,6 +1,17 @@
 import knex from '../db'
 
 import * as Candidate from '../Candidate'
+import * as Question from '../Question'
+
+export async function GetOptions(req, res, next) {
+    const options = await Question.getOptions()
+    res.json(options)
+}
+
+export async function GetQuestions(req, res, next) {
+    const questions = await Question.getAll()
+    res.json(questions)
+}
 
 export async function GetCandidates(req, res, next) {
     const query = await knex
