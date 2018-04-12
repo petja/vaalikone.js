@@ -26,7 +26,7 @@ const jsxRule = {
 
 module.exports = {
     mode        : 'development',
-    entry       : ['babel-polyfill', './front/src/App.jsx'],
+    entry       : ['./front/src/App.jsx'],
     output      : {
         path        : path.join(__dirname, 'front/dist'),
         filename    : './[name].bundle.js',

@@ -36,7 +36,7 @@ const EmptyState = ({onStart, classes}) => (
     </React.Fragment>
 )
 
-const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onStart}) => (
+const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onStart, classes}) => (
     <React.Fragment>
 
         <Typography variant='headline'>{text}</Typography>
@@ -66,6 +66,20 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
                 </ListItem>
             ))}
         </List>
+
+        <br />
+        <Divider />
+        <br />
+
+        <Button
+            children='Ohita kysymys'
+        />
+        <Button
+            variant='raised'
+            color='secondary'
+            disabled={!currentAnswer}
+            children='Seuraava kysymys'
+        />
 
     </React.Fragment>
 )

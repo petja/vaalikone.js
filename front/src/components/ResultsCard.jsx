@@ -13,7 +13,6 @@ const ResultsView = ({onStart}) => (
             <Typography gutterBottom>Nämä ehdokkaat sopivat sinulle parhaiten</Typography>
 
             <Button
-                variant='raised'
                 children='Näytä kaikki'
             />
         </CardContent>

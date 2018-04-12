@@ -2,54 +2,32 @@ import React from 'react'
 
 import classnames from 'classnames'
 
-import Grid from 'material-ui/Grid'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 
-import Question from '../containers/Question.jsx'
-import ResultsCard from '../components/ResultsCard.jsx'
+import QuestionLayout from '../components/QuestionLayout.jsx'
+import BottomNavigation from '../components/BottomNavigation.jsx'
 
-
+import { Route, Link } from 'react-router-dom'
 
 
 
 
 import { createMuiTheme, MuiThemeProvider, withStyles } from 'material-ui/styles'
-import primary from 'material-ui/colors/indigo'
-import secondary from 'material-ui/colors/yellow'
+import primary from 'material-ui/colors/cyan'
+import secondary from 'material-ui/colors/green'
 
 const theme = createMuiTheme({
     palette         : {
         type            : 'dark',
-        primary         : {main: primary['800']}, //
-        secondary       : {main: secondary['700']},
+        primary         : {main: primary['900']},
+        secondary       : secondary,
     },
     zIndex          : {
         floatingBody    : 1150,
     },
 })
-
-
-
-
-const styles = theme => ({
-    root            : {
-        position        : 'relative',
-        zIndex          : theme.zIndex.appBar + 1,
-        marginTop       : '64px !important',
-    },
-    fixedWidth      : {
-        margin          : '0 auto',
-        maxWidth        : '70em',
-    },
-    picture         : {
-        maxWidth        : '100em',
-        width           : '100%',
-    },
-})
-
-
 
 
 
@@ -59,19 +37,21 @@ function MainLayout(props) {
     return (
         <MuiThemeProvider theme={theme}>
             <AppBar position='fixed'>
-                    <Toolbar>
-                        <Typography variant="title" color="inherit">Petjan vaalikone</Typography>
-                    </Toolbar>
-                    <Toolbar />
-                    <Toolbar />
+                <Toolbar>
+                    <Typography variant="title" color="inherit">
+                        Petjan vaalikone
+                    </Typography>
+                </Toolbar>
+                <Toolbar />
+                <Toolbar />
             </AppBar>
 
-            <Grid container className={classnames(classes.root, classes.fixedWidth)} spacing={8}>
-                <Grid item sm={12} md={9} children={<Question />} />
-                <Grid item sm={12} md={3} children={<ResultsCard />} />
-            </Grid>
+            <Route exact path='/' component={() => <QuestionLayout />} />
+            <Route path='/candidates' component={() => 'Ehdokkaat'} />
+
+            <BottomNavigation />
         </MuiThemeProvider>
     )
 }
 
-export default withStyles(styles)(MainLayout)
+export default MainLayout

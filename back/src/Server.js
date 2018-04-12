@@ -17,6 +17,10 @@ app.get('/api/candidates', asyncMiddleware(APIController.GetCandidates))
 app.get('/api/parties', asyncMiddleware(APIController.GetParties))
 app.get('/api/results', asyncMiddleware(APIController.GetResults))
 
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../front/dist/index.html'))
+})
+
 //app.get('/api/startAuth', asyncMiddleware(APIController.StartAuth))
 //app.get('/api/authCallback', asyncMiddleware(APIController.AuthCallback))
 //app.get('/api/getStudentGroups', asyncMiddleware(APIController.GetStudentGroups))

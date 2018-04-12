@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 
 import store from './store'
 import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import MainLayout from './components/MainLayout.jsx'
 
@@ -13,7 +14,12 @@ QuestionModel.getAll()
  
 render(
     <Provider store={store}>
-        <MainLayout />
+        <Router>
+            <div>
+                <MainLayout />
+            </div>
+        </Router>
     </Provider>,
+
     document.getElementById('root')
 )
