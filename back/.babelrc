@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        "transform-async-to-generator"
+    ],
+    "presets": [
+        "flow",
+        [
+            "env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ]
+    ]
+}
