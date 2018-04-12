@@ -3,9 +3,14 @@
 import { questionsReceived } from '../actions'
 import store from '../store'
 
-export async function getAll() {
-    const questions = await fetch('/api/questions').then(resp => resp.json())
-    const options = await fetch('/api/options').then(resp => resp.json())
+export function getAll() {
+    Promise.all([
+        fetch('/api/questions').then(resp => resp.json()),
+        fetch('/api/options').then(resp => resp.json())
+    ]).then(resolved => {
+        const questions = resolved[0]
+        const options = resolved[1]
 
-    store.dispatch(questionsReceived(questions, options))
+        store.dispatch(questionsReceived(questions, options))
+    })
 }

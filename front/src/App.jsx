@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import store from './store'
 import { Provider } from 'react-redux'
 
-import Question from './containers/Question.jsx'
+import MainLayout from './components/MainLayout.jsx'
 
 // Models
 import * as QuestionModel from './models/Question'
@@ -13,7 +13,7 @@ QuestionModel.getAll()
  
 render(
     <Provider store={store}>
-        <Question />
+        <MainLayout />
     </Provider>,
     document.getElementById('root')
 )

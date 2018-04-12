@@ -4,27 +4,36 @@ import Typography from 'material-ui/Typography'
 import Card, {CardActions, CardContent} from 'material-ui/Card'
 import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import Radio from 'material-ui/Radio'
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
+import { withStyles } from 'material-ui/styles'
 
 import {CheckCircle} from '@material-ui/icons'
 
-const EmptyState = ({onStart}) => (
+const styles = theme => ({
+    picture         : {
+        maxWidth        : '100em',
+        width           : '100%',
+    },
+})
+
+const EmptyState = ({onStart, classes}) => (
     <React.Fragment>
-        <Typography variant='headline' gutterBottom>Vaalikone</Typography>
-        <Typography gutterBottom>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae eleifend dui. Nunc sagittis purus nibh, at lacinia quam dignissim non. Sed id nulla auctor, interdum metus sit amet, condimentum purus. Morbi sodales arcu quis augue semper consectetur. Ut lacinia lobortis faucibus. Duis cursus velit ut erat tristique, ac tincidunt eros ultrices. Suspendisse potenti. Nullam tempus leo eu magna ullamcorper commodo. Duis odio nunc, lacinia vitae euismod id, hendrerit a mi.</Typography>
+        <img
+            src='https://images.pexels.com/photos/131743/pexels-photo-131743.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
+            className={classes.picture}
+        />
+
+        <Typography variant='headline' gutterBottom>Tervetuloa vaalikoneeseen</Typography>
+        <Typography gutterBottom>Tähän jokin esittelyteksti :)</Typography>
 
         <Button
             variant='raised'
+            color='secondary'
             onClick={onStart}
             children='Aloita'
         />
     </React.Fragment>
-)
-
-const listCheckmark = (
-    <ListItemIcon
-        children={<CheckCircle />}
-    />
 )
 
 const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onStart}) => (
@@ -50,7 +59,9 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
                     key={optionId}
                     onClick={() => onAnswer(id, optionId)}
                 >
-                    {currentAnswer === optionId ? listCheckmark : null}
+                    <Radio
+                        checked={currentAnswer === optionId}
+                    />
                     <ListItemText inset={currentAnswer !== optionId} primary={allOptions[optionId]} />
                 </ListItem>
             ))}
@@ -67,4 +78,4 @@ const QuestionContainer = props => (
     </Card>
 )
 
-export default QuestionContainer
+export default withStyles(styles)(QuestionContainer)
