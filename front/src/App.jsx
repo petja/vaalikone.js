@@ -1,20 +1,19 @@
 import React from 'react'
 import { render } from 'react-dom'
 
+import store from './store'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
 
-import reducer from './reducer'
 import Question from './containers/Question.jsx'
+
+// Models
+import * as QuestionModel from './models/Question'
  
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+QuestionModel.getAll()
  
 render(
     <Provider store={store}>
-        <Question
-            id='foobar'
-            text='Parantumattomasti sairailla tulee olla oikeus avustettuun kuolemaan'
-        />
+        <Question />
     </Provider>,
     document.getElementById('root')
 )

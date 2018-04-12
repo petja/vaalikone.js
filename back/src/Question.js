@@ -11,7 +11,7 @@ export async function getAll(): Promise {
         // If question doesn't already exist in the reduced object
         if (!acc[question.id]) {
             acc[question.id] = {
-                question            : question.content,
+                text                : question.content,
                 options             : [],
             }
         }
