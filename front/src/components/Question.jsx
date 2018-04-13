@@ -10,10 +10,15 @@ import { withStyles } from 'material-ui/styles'
 
 import {CheckCircle} from '@material-ui/icons'
 
+import Testimonial from '../components/Testimonial.jsx'
+
 const styles = theme => ({
     picture         : {
         maxWidth        : '100em',
         width           : '100%',
+    },
+    nextButton      : {
+        float           : 'right',
     },
 })
 
@@ -44,13 +49,15 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
         <br />
         <Divider />
         <br />
-        <Typography variant='subheading'>{'Perusteluita puolesta ja vastaan'}</Typography>
-        <Typography>Lorem Ipsum Dolor Sit Amet</Typography>
+        <Typography color='secondary' variant='subheading'>{'Perusteluita puolesta ja vastaan'}</Typography>
+        <Testimonial />
+        <Testimonial />
+        <Testimonial />
         <br />
 
         <Divider />
         <br />
-        <Typography variant='subheading'>{'Mitä vastaat?'}</Typography>
+        <Typography color='secondary' variant='subheading'>{'Mitä vastaat?'}</Typography>
 
         <List>
             {(options || []).map(optionId => (
@@ -71,14 +78,18 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
         <Divider />
         <br />
 
-        <Button
-            children='Ohita kysymys'
-        />
+        {
+            currentAnswer ?
+            <Button children='Poista vastaukseni' /> :
+            <Button children='Ohita kysymys' />
+        }
+
         <Button
             variant='raised'
             color='secondary'
             disabled={!currentAnswer}
             children='Seuraava kysymys'
+            className={classes.nextButton}
         />
 
     </React.Fragment>

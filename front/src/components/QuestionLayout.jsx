@@ -9,9 +9,8 @@ import ResultsCard from '../components/ResultsCard.jsx'
 const styles = theme => ({
     root            : {
         position        : 'relative',
-        zIndex          : theme.zIndex.appBar + 1,
-        marginTop       : '64px !important',
-        margin          : '0 auto',
+        zIndex          : theme.zIndex.floatingBody,
+        margin          : '64px auto',
         maxWidth        : '70em',
     },
 })

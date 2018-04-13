@@ -19,13 +19,14 @@ import primary from 'material-ui/colors/cyan'
 import secondary from 'material-ui/colors/green'
 
 const theme = createMuiTheme({
-    palette         : {
-        type            : 'dark',
-        primary         : {main: primary['900']},
-        secondary       : secondary,
+    palette             : {
+        type                : 'dark',
+        primary             : {main: primary['900']},
+        secondary           : secondary,
     },
-    zIndex          : {
-        floatingBody    : 1150,
+    zIndex              : {
+        floatingBody        : 1150,
+        bottomNavigation    : 1175,
     },
 })
 
