@@ -23,6 +23,23 @@ export function compareAnswers(a, b) {
     return Math.max(a, b) - Math.min(a, b)
 }
 
+export async function getAll() {
+    const candidates = await knex
+        .select('*')
+        .from('candidates')
+    
+    return candidates.reduce((acc, candidate) => {
+        acc[candidate.id] = {
+            name            : `${candidate.firstname} ${candidate.lastname}`,
+            party           : candidate.party,
+            description     : candidate.description,
+            picture         : candidate.picture,
+        }
+
+        return acc
+    }, {})
+}
+
 // Return object containing questionId as a key and
 // array containing candidate responses as a value
 export async function getResponsesByQuestion(): object {

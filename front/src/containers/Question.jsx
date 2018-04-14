@@ -1,22 +1,23 @@
 import { connect } from 'react-redux'
-import { setQuestionAnswer, getNextQuestion } from '../actions'
+import { SET_ANSWER_AND_UPDATE_SCORES, getNextQuestion } from '../actions'
 import Question from '../components/Question.jsx'
 
 const mapStateToProps = (state, ownProps) => {
-    if(!state.question) return {}
+    const question = state.questions[state.activeQuestion]
+    if(!question) return {}
 
     return {
-        id                      : state.question.id,
-        text                    : state.question.text,
-        options                 : state.question.options,
-
-        allOptions              : state.options,
-        currentAnswer           : state.answers[state.question.id],
+        questionId          : state.activeQuestion,
+        ...question,
+        options             : Object.values(question.options).map(optionId => (
+            {id: optionId, text: state.options[optionId]}
+        )),
+        currentAnswer       : state.answers[state.activeQuestion],
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onAnswer                : (questionId, answerId) => dispatch(setQuestionAnswer(questionId, answerId)),
+    onAnswer                : (questionId, answerId) => dispatch(SET_ANSWER_AND_UPDATE_SCORES(questionId, answerId)),
     onStart                 : () => dispatch(getNextQuestion()),
 })
 

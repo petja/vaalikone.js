@@ -14,11 +14,8 @@ export async function GetQuestions(req, res, next) {
 }
 
 export async function GetCandidates(req, res, next) {
-    const query = await knex
-        .select('id', 'firstname', 'lastname', 'party', 'description')
-        .from('candidates')
-
-    res.json(query)
+    const candidates = await Candidate.getAll()
+    res.json(candidates)
 }
 
 export async function GetParties(req, res, next) {
@@ -30,16 +27,6 @@ export async function GetParties(req, res, next) {
 }
 
 export async function GetResults(req, res, next) {
-
-    const responses = await Candidate.scoreCandidates(JSON.parse(req.query.payload))
+    const responses = await Candidate.scoreCandidates(req.body)
     res.json(responses)
-
-    //const candidates: number[] = Candidate.getAll()
-    //const responses: {[number]: Object[]} = Candidate.getAllResponses()
-
-    // Must return an object with questionId as a key
-    // Each property has array in in, describing all responses to specific question
-    
-    // Finding best candidate
-    
 }

@@ -1,4 +1,21 @@
-import { createStore } from 'redux'
-import reducer from './reducer'
+import {createStore, applyMiddleware} from 'redux'
+import {composeWithDevTools} from 'redux-devtools-extension'
 
-export default createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+import reducer from './reducer'
+import thunk from 'redux-thunk'
+
+const initialState = {
+    answers             : {},
+    questions           : {},
+    options             : {},
+    candidates          : {},
+    scoreboard          : {},
+}
+
+export default createStore(
+    reducer,
+    initialState,
+    composeWithDevTools(
+        applyMiddleware(thunk)
+    )
+)

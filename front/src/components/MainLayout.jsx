@@ -7,6 +7,7 @@ import Toolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 
 import QuestionLayout from '../components/QuestionLayout.jsx'
+import CandidatesLayout from '../components/CandidatesLayout.jsx'
 import BottomNavigation from '../components/BottomNavigation.jsx'
 
 import { Route, Link } from 'react-router-dom'
@@ -48,7 +49,7 @@ function MainLayout(props) {
             </AppBar>
 
             <Route exact path='/' component={() => <QuestionLayout />} />
-            <Route path='/candidates' component={() => 'Ehdokkaat'} />
+            <Route path='/candidates' component={() => <CandidatesLayout />} />
 
             <BottomNavigation />
         </MuiThemeProvider>

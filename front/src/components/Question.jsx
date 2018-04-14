@@ -41,7 +41,7 @@ const EmptyState = ({onStart, classes}) => (
     </React.Fragment>
 )
 
-const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onStart, classes}) => (
+const Question = ({questionId, text, currentAnswer, options, onAnswer, onStart, classes}) => (
     <React.Fragment>
 
         <Typography variant='headline'>{text}</Typography>
@@ -60,16 +60,16 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
         <Typography color='secondary' variant='subheading'>{'Mitä vastaat?'}</Typography>
 
         <List>
-            {(options || []).map(optionId => (
+            {options.map(option => (
                 <ListItem
                     button
-                    key={optionId}
-                    onClick={() => onAnswer(id, optionId)}
+                    key={option.id}
+                    onClick={() => onAnswer(questionId, option.id)}
                 >
                     <Radio
-                        checked={currentAnswer === optionId}
+                        checked={currentAnswer === option.id}
                     />
-                    <ListItemText inset={currentAnswer !== optionId} primary={allOptions[optionId]} />
+                    <ListItemText inset={currentAnswer !== option.id} primary={option.text} />
                 </ListItem>
             ))}
         </List>
@@ -98,7 +98,7 @@ const Question = ({id, text, currentAnswer, options, allOptions, onAnswer, onSta
 const QuestionContainer = props => (
     <Card>
         <CardContent>
-            {props.id ? Question(props) : EmptyState(props)}
+            {props.questionId ? Question(props) : EmptyState(props)}
         </CardContent>
     </Card>
 )
