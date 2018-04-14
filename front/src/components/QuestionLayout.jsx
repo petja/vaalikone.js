@@ -4,7 +4,7 @@ import Grid from 'material-ui/Grid'
 import {withStyles} from 'material-ui/styles'
 
 import Question from '../containers/Question.jsx'
-import ResultsCard from '../components/ResultsCard.jsx'
+import ResultsCard from '../containers/ResultsCard.jsx'
 
 const styles = theme => ({
     root            : {

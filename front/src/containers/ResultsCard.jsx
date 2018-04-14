@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-//import { setQuestionAnswer, getNextQuestion } from '../actions'
-import CandidateList from '../components/CandidateList.jsx'
+//import { SET_ANSWER_AND_UPDATE_SCORES, getNextQuestion } from '../actions'
+import ResultsCard from '../components/ResultsCard.jsx'
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -17,6 +17,6 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const container = connect(
     mapStateToProps,
     mapDispatchToProps
-)(CandidateList)
+)(ResultsCard)
 
 export default container
