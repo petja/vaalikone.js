@@ -33,13 +33,23 @@ const theme = createMuiTheme({
 
 
 
+const styles = theme => ({
+    toolbar             : {
+        width               : '100%',
+        maxWidth            : '70em',
+        margin              : '0 auto',
+    },
+})
+
+
+
 function MainLayout(props) {
     const {classes} = props
 
     return (
         <MuiThemeProvider theme={theme}>
             <AppBar position='fixed'>
-                <Toolbar>
+                <Toolbar className={classes.toolbar}>
                     <Typography variant="title" color="inherit">
                         Petjan vaalikone
                     </Typography>
@@ -56,4 +66,4 @@ function MainLayout(props) {
     )
 }
 
-export default MainLayout
+export default withStyles(styles)(MainLayout)

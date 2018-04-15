@@ -54,6 +54,7 @@ const ResultsCard = (props) => (
             <Button
                 children='Näytä kaikki'
                 onClick={() => props.history.push('/candidates')}
+                color='secondary'
             />
         </CardContent>
     </Card>
