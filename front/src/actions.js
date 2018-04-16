@@ -59,6 +59,11 @@ export const SCOREBOARD_UPDATE_OK = scoreboard => ({
     scoreboard,
 })
 
+export const GO_QUESTION_ID = questionId => ({
+    type                : 'GO_QUESTION_ID',
+    questionId,
+})
+
 /*export function scoreCandidates() {
     return {
         type                : 'API',

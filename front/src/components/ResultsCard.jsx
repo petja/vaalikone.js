@@ -14,8 +14,7 @@ import {withRouter} from 'react-router-dom'
 
 const styles = theme => ({
     root            : {
-        position        : 'sticky',
-        top             : `${theme.spacing.unit}px`,
+        //
     },
     avatar          : {
         //

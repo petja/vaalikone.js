@@ -40,7 +40,14 @@ export default ((state = initialState, action) => {
             break
 
         case 'REMOVE_ANSWER':
-            output.answers[action.questionId] = action.answerId
+            delete output.answers[action.questionId]
+
+            return output
+
+            break
+
+        case 'GO_QUESTION_ID':
+            output.activeQuestion = action.questionId
 
             return output
 
@@ -50,4 +57,3 @@ export default ((state = initialState, action) => {
             return state
     }
 })
-//
