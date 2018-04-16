@@ -32,9 +32,15 @@ export default ((state = initialState, action) => {
             break
 
         case 'NEXT_QUESTION':
-            const nextId = Object.keys(state.questions)[0]
+            output.activeQuestionIndex++
+            output.activeQuestion = Object.keys(state.questions)[output.activeQuestionIndex]
 
-            output.activeQuestion = nextId
+            return output
+
+            break
+
+        case 'REMOVE_ANSWER':
+            output.answers[action.questionId] = action.answerId
 
             return output
 

@@ -2,7 +2,7 @@ import knex from './db'
 
 export async function getScoreboard() {
     const candidates = await knex
-        .select('*')
+        .select('id')
         .from('candidates')
 
     /* Create object where key is ID of candidate
@@ -14,8 +14,8 @@ export async function getScoreboard() {
      */
     return candidates.map(candidate => {
         return candidate.id
-    }).reduce((acc, cur) => {
-        acc[cur] = 0
+    }).reduce((acc, candidateId) => {
+        acc[candidateId] = 0
     }, {})
 }
 

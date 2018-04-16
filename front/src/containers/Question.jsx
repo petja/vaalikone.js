@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { SET_ANSWER_AND_UPDATE_SCORES, getNextQuestion } from '../actions'
+import { SET_ANSWER_AND_UPDATE_SCORES, REMOVE_ANSWER, NEXT_QUESTION } from '../actions'
 import Question from '../components/Question.jsx'
 
 const mapStateToProps = (state, ownProps) => {
@@ -18,7 +18,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onAnswer                : (questionId, answerId) => dispatch(SET_ANSWER_AND_UPDATE_SCORES(questionId, answerId)),
-    onStart                 : () => dispatch(getNextQuestion()),
+    onNextQuestion          : () => dispatch(NEXT_QUESTION()),
+    onRemoveAnswer          : (questionId) => dispatch(REMOVE_ANSWER(questionId)),
 })
 
 const container = connect(

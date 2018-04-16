@@ -17,11 +17,14 @@ export function questionsReceived(questions, options, candidates, parties) {
     }
 }
 
-export function getNextQuestion() {
-    return {
-        type                : 'NEXT_QUESTION',
-    }
-}
+export const NEXT_QUESTION = () => ({
+    type                : 'NEXT_QUESTION',
+})
+
+export const REMOVE_ANSWER = (questionId) => ({
+    type                : 'REMOVE_ANSWER',
+    questionId,
+})
 
 export const SET_ANSWER = (questionId, answerId) => ({
     type                : 'SET_ANSWER',

@@ -10,6 +10,8 @@ const initialState = {
     options             : {},
     candidates          : {},
     scoreboard          : {},
+    activeQuestionIndex : -1,
+    activeQuestion      : null,
 }
 
 export default createStore(

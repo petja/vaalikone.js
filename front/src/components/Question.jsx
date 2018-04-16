@@ -22,7 +22,7 @@ const styles = theme => ({
     },
 })
 
-const EmptyState = ({onStart, classes}) => (
+const EmptyState = ({onNextQuestion, classes}) => (
     <React.Fragment>
         <img
             src='https://images.pexels.com/photos/131743/pexels-photo-131743.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
@@ -35,13 +35,19 @@ const EmptyState = ({onStart, classes}) => (
         <Button
             variant='raised'
             color='secondary'
-            onClick={onStart}
+            onClick={onNextQuestion}
             children='Aloita'
         />
     </React.Fragment>
 )
 
-const Question = ({questionId, text, currentAnswer, options, onAnswer, onStart, classes}) => (
+const removeButton = ({onClick}) => (
+    <Button
+        children='Ohita kysymys'
+    />
+)
+
+const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQuestion, onRemoveAnswer, classes}) => (
     <React.Fragment>
 
         <Typography variant='headline'>{text}</Typography>
@@ -80,16 +86,17 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onStart, 
 
         {
             currentAnswer ?
-            <Button children='Poista vastaukseni' /> :
-            <Button children='Ohita kysymys' />
+            <Button children='Poista vastaukseni' onClick={() => onRemoveAnswer(questionId)} /> :
+            <Button children='Ohita kysymys' onClick={onNextQuestion} />
         }
 
         <Button
             variant='raised'
             color='secondary'
             disabled={!currentAnswer}
-            children='Seuraava kysymys'
             className={classes.nextButton}
+            onClick={onNextQuestion}
+            children='Seuraava kysymys'
         />
 
     </React.Fragment>
