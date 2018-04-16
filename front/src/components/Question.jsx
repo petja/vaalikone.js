@@ -66,14 +66,16 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
         <Typography color='secondary' variant='subheading'>{'Mitä vastaat?'}</Typography>
 
         <List>
-            {options.map(option => (
+            {options.map((option, optionIndex) => (
                 <ListItem
                     button
                     key={option.id}
                     onClick={() => onAnswer(questionId, option.id)}
+                    tabIndex={optionIndex + 1}
                 >
                     <Radio
                         checked={currentAnswer === option.id}
+                        tabIndex='-1'
                     />
                     <ListItemText inset={currentAnswer !== option.id} primary={option.text} />
                 </ListItem>

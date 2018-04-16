@@ -2,7 +2,9 @@ import React from 'react'
 
 import classnames from 'classnames'
 
+import Typography from 'material-ui/Typography'
 import Paper from 'material-ui/Paper'
+import {blue} from 'material-ui/colors'
 import {withStyles} from 'material-ui/styles'
 
 const styles = theme => ({
@@ -18,18 +20,35 @@ const styles = theme => ({
         cursor              : 'pointer',
     },
     active              : {
+        background          : blue['A400'],
+    },
+    done                : {
         background          : theme.palette.secondary['A400'],
     },
 })
 
-const QuestionProgress = ({questions, completed, onChangeQuestion, classes}) => (
+function createTitle({completed, questions}) {
+    if(completed.length === 0) return (
+        <Typography gutterBottom>{questions.length} kysymystä. Aloita vastaaminen.</Typography>
+    )
+
+    return (
+        <Typography gutterBottom>Olet vastannut {completed.length}/{questions.length} kysymykseen</Typography>
+    )
+}
+
+const QuestionProgress = ({questions, completed, activeQuestion, onChangeQuestion, classes}) => (
     <Paper className={classes.root}>
+        {createTitle({completed, questions})}
+
         {questions.map(questionId => (
             <div
+                key={questionId}
                 className={classnames(
                     classes.item,
                     {
-                        [classes.active]: completed.includes(questionId)
+                        [classes.active]: activeQuestion === questionId,
+                        [classes.done]: completed.includes(questionId)
                     }
                 )}
                 onClick={() => onChangeQuestion(questionId)}
