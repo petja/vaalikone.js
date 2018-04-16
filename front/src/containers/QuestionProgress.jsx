@@ -5,6 +5,7 @@ import QuestionProgress from '../components/QuestionProgress.jsx'
 const mapStateToProps = (state, ownProps) => ({
     questions               : Object.keys(state.questions),
     completed               : Object.keys(state.answers),
+    activeQuestion          : state.activeQuestion,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

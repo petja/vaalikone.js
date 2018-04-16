@@ -1,10 +1,10 @@
 //import jsonFetch from 'json-fetch'
 
-import { questionsReceived } from '../actions'
+import { questionsReceived, REHYDRATE_BEGIN } from '../actions'
 import store from '../store'
 
 export function getAll() {
-    Promise.all([
+    return Promise.all([
         fetch('/api/questions').then(resp => resp.json()),
         fetch('/api/options').then(resp => resp.json()),
         fetch('/api/candidates').then(resp => resp.json()),
@@ -18,3 +18,5 @@ export function getAll() {
         store.dispatch(questionsReceived(questions, options, candidates, parties))
     })
 }
+
+store.dispatch(REHYDRATE_BEGIN())

@@ -1,5 +1,5 @@
-require("regenerator-runtime/runtime")
 import store from './store'
+import localForage from './models/db'
 
 export const ACTIONS = {
     SCORE_CANDIDATES            : {
@@ -26,6 +26,24 @@ export const REMOVE_ANSWER = (questionId) => ({
     questionId,
 })
 
+export const UPDATE_LOCALFORAGE = () => async dispatch => {
+    const state = store.getState()
+    await localForage.setItem('answers', state.answers)
+}
+
+export const REHYDRATE_BEGIN = () => async dispatch => {
+    const rehydrated = {
+        answers         : await localForage.getItem('answers') || {},
+    }
+
+    await dispatch(REHYDRATE_OK(rehydrated))
+}
+
+export const REHYDRATE_OK = (rehydrated) => ({
+    type                : 'REHYDRATE_OK',
+    payload             : rehydrated,
+})
+
 export const SET_ANSWER = (questionId, answerId) => ({
     type                : 'SET_ANSWER',
     questionId,
@@ -34,6 +52,7 @@ export const SET_ANSWER = (questionId, answerId) => ({
 
 export const SET_ANSWER_AND_UPDATE_SCORES = (questionId, answerId) => async dispatch => {
     await dispatch(SET_ANSWER(questionId, answerId))
+    await dispatch(UPDATE_LOCALFORAGE())
     await dispatch(SCOREBOARD_UPDATE())
 }
 

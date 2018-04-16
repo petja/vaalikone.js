@@ -53,6 +53,14 @@ export default ((state = initialState, action) => {
 
             break
 
+        case 'REHYDRATE_OK':
+            return {
+                ...state,
+                ...action.payload,
+            }
+
+            break
+
         default:
             return state
     }
