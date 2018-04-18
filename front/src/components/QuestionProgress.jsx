@@ -16,14 +16,14 @@ const styles = theme => ({
         width               : '0.8em',
         height              : '0.8em',
         display             : 'inline-block',
-        margin              : '0 1px 1px 0',
+        margin              : '0 0.2em 0.2em 0',
         cursor              : 'pointer',
-    },
-    active              : {
-        background          : blue['A400'],
     },
     done                : {
         background          : theme.palette.secondary['A400'],
+    },
+    active              : {
+        background          : blue['A400'],
     },
 })
 

@@ -24,6 +24,9 @@ const theme = createMuiTheme({
         type                : 'dark',
         primary             : {main: primary['900']},
         secondary           : secondary,
+        background          : {
+            paper               : '#373737',
+        },
     },
     zIndex              : {
         floatingBody        : 1150,

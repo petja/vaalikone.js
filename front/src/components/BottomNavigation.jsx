@@ -15,6 +15,7 @@ const styles = theme => ({
         width           : '100%',
         zIndex          : theme.zIndex.bottomNavigation,
         boxShadow       : '0 0 0.5em rgba(0,0,0,0.25)',
+        background      : '#424242',
     },
     selected        : {
         color           : theme.palette.secondary['A400'],

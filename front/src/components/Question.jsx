@@ -20,6 +20,9 @@ const styles = theme => ({
     nextButton      : {
         float           : 'right',
     },
+    section         : {
+        padding         : '1em',
+    },
 })
 
 const EmptyState = ({onNextQuestion, classes}) => (
@@ -41,68 +44,105 @@ const EmptyState = ({onNextQuestion, classes}) => (
     </React.Fragment>
 )
 
-const removeButton = ({onClick}) => (
-    <Button
-        children='Ohita kysymys'
-    />
-)
+const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQuestion, onRemoveAnswer, classes}) => {
 
-const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQuestion, onRemoveAnswer, classes}) => (
-    <React.Fragment>
-
+    const headline = (
         <Typography variant='headline'>{text}</Typography>
+    )
 
-        <br />
-        <Divider />
-        <br />
-        <Typography color='secondary' variant='subheading'>{'Perusteluita puolesta ja vastaan'}</Typography>
-        <Testimonial />
-        <Testimonial />
-        <Testimonial />
-        <br />
+    const motivationTitle = (
+        <Typography color='secondary' variant='subheading'>
+            Perusteluita puolesta ja vastaan
+        </Typography>
+    )
 
-        <Divider />
-        <br />
-        <Typography color='secondary' variant='subheading'>{'Mitä vastaat?'}</Typography>
+    const inputTitle = (
+        <Typography color='secondary' variant='subheading'>
+            {'Mitä vastaat?'}
+        </Typography>
+    )
 
-        <List>
-            {options.map((option, optionIndex) => (
-                <ListItem
-                    button
-                    key={option.id}
-                    onClick={() => onAnswer(questionId, option.id)}
-                    tabIndex={optionIndex + 1}
-                >
-                    <Radio
-                        checked={currentAnswer === option.id}
-                        tabIndex='-1'
-                    />
-                    <ListItemText inset={currentAnswer !== option.id} primary={option.text} />
-                </ListItem>
-            ))}
-        </List>
+    const optionItems = options.map((option, optionIndex) => (
+        <ListItem
+            button
+            key={option.id}
+            onClick={() => onAnswer(questionId, option.id)}
+            tabIndex={optionIndex + 1}
+        >
+            <Radio
+                checked={currentAnswer === option.id}
+                tabIndex='-1'
+            />
+            <ListItemText inset={currentAnswer !== option.id} primary={option.text} />
+        </ListItem>
+    ))
 
-        <br />
-        <Divider />
-        <br />
+    const optionList = (
+        <List children={optionItems} />
+    )
 
-        {
-            currentAnswer ?
-            <Button children='Poista vastaukseni' onClick={() => onRemoveAnswer(questionId)} /> :
-            <Button children='Ohita kysymys' onClick={onNextQuestion} />
-        }
-
+    const nextButton = (
         <Button
+            children='Seuraava kysymys'
             variant='raised'
             color='secondary'
             disabled={!currentAnswer}
             className={classes.nextButton}
             onClick={onNextQuestion}
-            children='Seuraava kysymys'
         />
+    )
 
-    </React.Fragment>
-)
+    const removeAnswerButton = (
+        <Button
+            children='Poista vastaukseni'
+            onClick={() => onRemoveAnswer(questionId)}
+        />
+    )
+
+    const skipButton = (
+        <Button
+            children='Ohita kysymys'
+            onClick={onNextQuestion}
+        />
+    )
+
+    const secondaryButton = (
+        currentAnswer ?
+        removeAnswerButton :
+        skipButton
+    )
+
+    return (
+        <React.Fragment>
+            <div className={classes.section}>
+                {headline}
+            </div>
+
+            <Divider />
+
+            <div className={classes.section}>
+                {motivationTitle}
+                <Testimonial />
+                <Testimonial />
+                <Testimonial />
+            </div>
+
+            <Divider />
+
+            <div className={classes.section}>
+                {inputTitle}
+                {optionList}
+            </div>
+
+            <Divider />
+
+            <div className={classes.section}>
+                {secondaryButton}
+                {nextButton}
+            </div>
+        </React.Fragment>
+    )
+}
 
 const QuestionContainer = props => (
     <Card>

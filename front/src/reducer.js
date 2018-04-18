@@ -32,8 +32,19 @@ export default ((state = initialState, action) => {
             break
 
         case 'NEXT_QUESTION':
-            output.activeQuestionIndex++
-            output.activeQuestion = Object.keys(state.questions)[output.activeQuestionIndex]
+            const all = Object.keys(output.questions)
+            const answered = Object.keys(output.answers)
+            const unanswered = all.filter(question => !answered.includes(question))
+
+            if (
+                !output.activeQuestion ||
+                !output.answers[output.activeQuestion]
+            ) {
+                output.activeQuestionIndex++
+            }
+
+            console.log(output.activeQuestionIndex % unanswered.length)
+            output.activeQuestion = unanswered[output.activeQuestionIndex % unanswered.length]
 
             return output
 

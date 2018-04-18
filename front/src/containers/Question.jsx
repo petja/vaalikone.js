@@ -18,7 +18,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onAnswer                : (questionId, answerId) => dispatch(SET_ANSWER_AND_UPDATE_SCORES(questionId, answerId)),
-    onNextQuestion          : () => dispatch(NEXT_QUESTION()),
+    onNextQuestion          : () => {
+        document.body.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
+        dispatch(NEXT_QUESTION())
+    },
     onRemoveAnswer          : (questionId) => dispatch(REMOVE_ANSWER(questionId)),
 })
 
