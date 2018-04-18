@@ -22,10 +22,13 @@
     "dependencies": {
         "@material-ui/icons": "^1.0.0-beta.42",
         "babel-polyfill": "^6.26.0",
+        "bcrypt": "^2.0.0",
         "body-parser": "^1.18.2",
         "classnames": "^2.2.5",
         "express": "^4.16.3",
+        "express-jwt": "^5.3.1",
         "json-fetch": "^7.5.0",
+        "jsonwebtoken": "^8.2.1",
         "knex": "^0.14.5",
         "localforage": "^1.7.1",
         "material-ui": "^1.0.0-beta.40",
@@ -34,7 +37,6 @@
         "react-dom": "^16.3.1",
         "react-redux": "^5.0.7",
         "react-router-dom": "^4.2.2",
-        "rechart": "^0.0.1",
         "redux": "^3.7.2",
         "redux-thunk": "^2.2.0"
     },

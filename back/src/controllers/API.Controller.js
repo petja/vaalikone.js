@@ -1,5 +1,6 @@
 import knex from '../db'
 
+import * as User from '../User'
 import * as Candidate from '../Candidate'
 import * as Question from '../Question'
 
@@ -29,4 +30,10 @@ export async function GetParties(req, res, next) {
 export async function GetResults(req, res, next) {
     const responses = await Candidate.scoreCandidates(req.body)
     res.json(responses)
+}
+
+export async function Login(req, res, next) {
+    const jwt = await User.loginWithEmailPassword(req.body.email, req.body.password)
+
+    res.json(jwt)
 }
