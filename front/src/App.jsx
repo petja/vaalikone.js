@@ -22,7 +22,6 @@ render(
         <Router>
             <div>
                 <MainLayout />
-                <Route exact path='/login' component={() => <AdminLayout />} />
             </div>
         </Router>
     </Provider>,

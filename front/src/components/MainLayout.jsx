@@ -9,6 +9,7 @@ import Typography from 'material-ui/Typography'
 import QuestionLayout from '../components/QuestionLayout.jsx'
 import CandidatesLayout from '../components/CandidatesLayout.jsx'
 import BottomNavigation from '../components/BottomNavigation.jsx'
+import LoginView from '../containers/LoginView.jsx'
 
 import { Route, Link } from 'react-router-dom'
 
@@ -22,7 +23,7 @@ import secondary from 'material-ui/colors/green'
 const theme = createMuiTheme({
     palette             : {
         type                : 'dark',
-        primary             : {main: primary['900']},
+        primary             : primary,
         secondary           : secondary,
         background          : {
             paper               : '#373737',
@@ -42,6 +43,10 @@ const styles = theme => ({
         maxWidth            : '70em',
         margin              : '0 auto',
     },
+    appBar              : {
+        background          : primary['900'],
+        color               : '#FFF',
+    },
 })
 
 
@@ -51,7 +56,7 @@ function MainLayout(props) {
 
     return (
         <MuiThemeProvider theme={theme}>
-            <AppBar position='fixed'>
+            <AppBar position='fixed' className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
                     <Typography variant="title" color="inherit">
                         Petjan vaalikone
@@ -63,6 +68,8 @@ function MainLayout(props) {
 
             <Route exact path='/' component={() => <QuestionLayout />} />
             <Route path='/candidates' component={() => <CandidatesLayout />} />
+
+            <Route path='/login' component={() => <LoginView />} />
 
             <BottomNavigation />
         </MuiThemeProvider>
