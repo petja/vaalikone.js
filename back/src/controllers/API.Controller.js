@@ -43,6 +43,13 @@ export const Login = asyncMiddleware(async (req, res, next) => {
     res.json(jwt)
 })
 
+export const GetAnswers = asyncMiddleware(async (req, res, next) => {
+    const questionId = req.params.question
+    const answers = await Question.getAnswers(questionId)
+
+    res.json(answers)
+})
+
 export const GetAnswer = asyncMiddleware(async (req, res, next) => {
     const {questionId} = req.params
     const userId = req.user.sub
@@ -54,5 +61,14 @@ export const GetAnswer = asyncMiddleware(async (req, res, next) => {
 })
 
 export const SetAnswer = asyncMiddleware(async (req, res, next) => {
-    res.json({hello: 'world'})
+    const {questionId} = req.params
+    const userId = req.user.sub
+    const candidateId = await Candidate.getByUID(userId)
+
+    const optionId: Number = req.body.option
+    const reasoning: String = req.body.reasoning
+
+    const answer = await Question.setAnswer(candidateId, questionId, optionId, reasoning)
+
+    res.json(answer)
 })

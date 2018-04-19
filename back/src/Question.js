@@ -30,26 +30,30 @@ export async function getOptions(): Promise {
     return options.reduce((acc, option) => {
         acc[option.id] = option.text
 
-        /*acc[option.id] = {
-            text            : option.text,
-            value           : option.value,
-        }*/
-
         return acc
     }, {})
 }
 
+export async function getAnswers(questionId: Number): object[] {
+    return await knex
+        .select('candidate', 'option', 'reasoning')
+        .from('candidate_answers')
+        .where({
+            question            : questionId,
+        })
+}
+
 // Whenever candidate answers the question,
 // push the change to the database
-export async function setResponse(candidateId: number, questionId: number, optionId: number, reasoning: String): Promise {
+export async function setAnswer(candidateId: number, questionId: number, optionId: number, reasoning: String): Promise {
     return knex.raw(`
         INSERT INTO \`candidate_answers\`
-            (candidate, question, option, reasoning)
+            (\`candidate\`, \`question\`, \`option\`, \`reasoning\`)
         VALUES
             (?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
-            option = ?,
-            reasoning = ?
+            \`option\` = ?,
+            \`reasoning\` = ?
     `, [
         candidateId,
         questionId,

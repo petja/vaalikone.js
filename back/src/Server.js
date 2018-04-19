@@ -11,6 +11,7 @@ import {
     GetResults,
     Login,
     GetAnswer,
+    GetAnswers,
     SetAnswer,
 } from './controllers/API.Controller.js'
 
@@ -34,6 +35,7 @@ const candidateMiddleware = jwt({
 // GET API
 app.get('/api/options', GetOptions)
 app.get('/api/questions', GetQuestions)
+app.get('/api/question/:question/answers', GetAnswers)
 app.get('/api/candidates', GetCandidates)
 app.get('/api/parties', GetParties)
 
