@@ -8,9 +8,9 @@ import Radio from 'material-ui/Radio'
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 
-import {CheckCircle} from '@material-ui/icons'
+import ReasoningList from '../containers/ReasoningList.jsx'
 
-import Testimonial from '../components/Testimonial.jsx'
+//import {CheckCircle} from '@material-ui/icons'
 
 const styles = theme => ({
     picture         : {
@@ -48,12 +48,6 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
 
     const headline = (
         <Typography variant='headline'>{text}</Typography>
-    )
-
-    const motivationTitle = (
-        <Typography color='secondary' variant='subheading'>
-            Perusteluita puolesta ja vastaan
-        </Typography>
     )
 
     const inputTitle = (
@@ -121,10 +115,7 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
             <Divider />
 
             <div className={classes.section}>
-                {motivationTitle}
-                <Testimonial />
-                <Testimonial />
-                <Testimonial />
+                <ReasoningList questionId={questionId} />
             </div>
 
             <Divider />
