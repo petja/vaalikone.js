@@ -12,6 +12,7 @@ const initialState = {
     scoreboard          : {},
     activeQuestionIndex : -1,
     activeQuestion      : null,
+    reasonings          : {},
 }
 
 export default createStore(

@@ -1,5 +1,8 @@
 import store from './store'
+import * as User from './models/User'
 import localForage from './models/db'
+
+import { throttle } from 'lodash'
 
 export const ACTIONS = {
     SCORE_CANDIDATES            : {
@@ -56,6 +59,38 @@ export const SET_ANSWER_AND_UPDATE_SCORES = (questionId, answerId) => async disp
     await dispatch(SCOREBOARD_UPDATE())
 }
 
+const PUSH_QUESTION_ANSWER = throttle(async (dispatch, questionId) => {
+    await dispatch({
+        type                : 'PUSH_QUESTION_ANSWER',
+        questionId,
+    })
+
+    const state = store.getState()
+    const authToken = await User.getToken()
+
+    await fetch(`/api/answer/${questionId}`, {
+        method              : 'POST',
+        headers             : {
+            'Content-Type'      : 'application/json',
+            Authorization       : `Bearer ${authToken}`,
+        },
+        body                : JSON.stringify({
+            option              : state.answers[questionId],
+            reasoning           : state.reasonings[questionId],
+        }),
+    })
+}, 2000)
+
+export const SET_REASONING = (questionId, text) => async dispatch => {
+    await dispatch({
+        type            : 'SET_REASONING',
+        questionId,
+        text,
+    })
+
+    await PUSH_QUESTION_ANSWER(dispatch, questionId)
+}
+
 export const SCOREBOARD_UPDATE = () => async dispatch => {
     const url = '/api/results'
     const {answers} = store.getState()
@@ -82,17 +117,3 @@ export const GO_QUESTION_ID = questionId => ({
     type                : 'GO_QUESTION_ID',
     questionId,
 })
-
-/*export function scoreCandidates() {
-    return {
-        type                : 'API',
-        payload             : {
-            url                 : '/results',
-            PENDING             : 'SCORE_CANDIDATES_PENDING',
-            SUCCESS             : 'SCORE_CANDIDATES_SUCCESS',
-            FAILURE             : 'SCORE_CANDIDATES_FAILURE',
-        },
-    }
-}*/
-
-window.appActions = exports

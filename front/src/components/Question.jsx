@@ -9,6 +9,7 @@ import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-
 import { withStyles } from 'material-ui/styles'
 
 import ReasoningList from '../containers/ReasoningList.jsx'
+import ReasoningEditor from '../containers/ReasoningEditor.jsx'
 
 //import {CheckCircle} from '@material-ui/icons'
 
@@ -123,6 +124,7 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
             <div className={classes.section}>
                 {inputTitle}
                 {optionList}
+                <ReasoningEditor />
             </div>
 
             <Divider />

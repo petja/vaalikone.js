@@ -9,6 +9,13 @@ export default ((state = initialState, action) => {
 
             break
 
+        case 'SET_REASONING':
+            output.reasonings[action.questionId] = action.text
+
+            return output
+
+            break
+
         case 'SCOREBOARD_UPDATE_OK':
             const maxScore = Object.values(action.scoreboard).reduce((a, b) => Math.max(a, b), 0)
 
