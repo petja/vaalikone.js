@@ -1,6 +1,6 @@
 //import jsonFetch from 'json-fetch'
 
-import { questionsReceived, REHYDRATE_BEGIN } from '../actions'
+import { questionsReceived, REHYDRATE } from '../actions'
 import store from '../store'
 
 export function getAll() {
@@ -19,4 +19,4 @@ export function getAll() {
     })
 }
 
-store.dispatch(REHYDRATE_BEGIN())
+store.dispatch(REHYDRATE())

@@ -65,8 +65,8 @@ export const SetAnswer = asyncMiddleware(async (req, res, next) => {
     const userId = req.user.sub
     const candidateId = await Candidate.getByUID(userId)
 
-    const optionId: Number = req.body.option
-    const reasoning: String = req.body.reasoning
+    const optionId: Number = req.body.option || null
+    const reasoning: String = req.body.reasoning || null
 
     const answer = await Question.setAnswer(candidateId, questionId, optionId, reasoning)
 

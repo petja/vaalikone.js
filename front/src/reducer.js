@@ -16,7 +16,7 @@ export default ((state = initialState, action) => {
 
             break
 
-        case 'SCOREBOARD_UPDATE_OK':
+        case 'SCOREBOARD_UPDATE':
             const maxScore = Object.values(action.scoreboard).reduce((a, b) => Math.max(a, b), 0)
 
             output.scoreboard = Object.keys(output.candidates).reduce((acc, candidateId) => {
@@ -71,7 +71,7 @@ export default ((state = initialState, action) => {
 
             break
 
-        case 'REHYDRATE_OK':
+        case 'REHYDRATE':
             return {
                 ...state,
                 ...action.payload,

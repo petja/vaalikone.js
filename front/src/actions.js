@@ -24,28 +24,30 @@ export const NEXT_QUESTION = () => ({
     type                : 'NEXT_QUESTION',
 })
 
-export const REMOVE_ANSWER = (questionId) => ({
-    type                : 'REMOVE_ANSWER',
-    questionId,
-})
+export const REMOVE_ANSWER = (questionId) => async dispatch => {
+    await dispatch({
+        type                : 'REMOVE_ANSWER',
+        questionId,
+    })
+
+    await PUSH_QUESTION_ANSWER(dispatch, questionId)
+}
 
 export const UPDATE_LOCALFORAGE = () => async dispatch => {
     const state = store.getState()
     await localForage.setItem('answers', state.answers)
 }
 
-export const REHYDRATE_BEGIN = () => async dispatch => {
+export const REHYDRATE = () => async dispatch => {
     const rehydrated = {
         answers         : await localForage.getItem('answers') || {},
     }
 
-    await dispatch(REHYDRATE_OK(rehydrated))
+    await dispatch({
+        type                : 'REHYDRATE',
+        payload             : rehydrated,
+    })
 }
-
-export const REHYDRATE_OK = (rehydrated) => ({
-    type                : 'REHYDRATE_OK',
-    payload             : rehydrated,
-})
 
 export const SET_ANSWER = (questionId, answerId) => ({
     type                : 'SET_ANSWER',
@@ -55,6 +57,7 @@ export const SET_ANSWER = (questionId, answerId) => ({
 
 export const SET_ANSWER_AND_UPDATE_SCORES = (questionId, answerId) => async dispatch => {
     await dispatch(SET_ANSWER(questionId, answerId))
+    await dispatch(PUSH_QUESTION_ANSWER(dispatch, questionId))
     await dispatch(UPDATE_LOCALFORAGE())
     await dispatch(SCOREBOARD_UPDATE())
 }
@@ -79,7 +82,7 @@ const PUSH_QUESTION_ANSWER = throttle(async (dispatch, questionId) => {
             reasoning           : state.reasonings[questionId],
         }),
     })
-}, 2000)
+}, 2000, {leading: false})
 
 export const SET_REASONING = (questionId, text) => async dispatch => {
     await dispatch({
@@ -105,13 +108,11 @@ export const SCOREBOARD_UPDATE = () => async dispatch => {
         })
     ).json()
 
-    await dispatch(SCOREBOARD_UPDATE_OK(scoreboard))
+    await dispatch({
+        type                : 'SCOREBOARD_UPDATE',
+        scoreboard,
+    })
 }
-
-export const SCOREBOARD_UPDATE_OK = scoreboard => ({
-    type                : 'SCOREBOARD_UPDATE_OK',
-    scoreboard,
-})
 
 export const GO_QUESTION_ID = questionId => ({
     type                : 'GO_QUESTION_ID',
