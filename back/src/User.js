@@ -19,10 +19,21 @@ export async function loginWithEmailPassword(email: String, password: String): P
     const passwordOk = await bcrypt.compare(password, userRow.password)
     if (!passwordOk) throw new Error('Invalid password')
 
+    // Find all candidates of this user
+    const candidateRows = await knex
+        .select('candidates.id')
+        .from('candidates')
+        .join('users')
+        .where({
+            'user'          : userRow.id,
+        })
+
     // Create new JWT
     const token = jwt.sign({
         sub             : userRow.id,
         email,
+        candidate       : candidateRows.map(candidate => candidate.id),
+        role            : 'admin',
     }, JWT_SECRET, {
         expiresIn       : '1h',
     })

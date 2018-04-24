@@ -120,6 +120,15 @@ export async function getByUID(userId: Number): Number {
     return candidate.id
 }
 
+export async function getAnswers(candidateId: Number): object[] {
+    return await knex
+        .select('question', 'option', 'reasoning')
+        .from('candidate_answers')
+        .where({
+            candidate           : candidateId,
+        })
+}
+
 export async function getAnswer(candidateId: Number, questionId: Number): object {
     const answer = await knex
         .select('option', 'reasoning')

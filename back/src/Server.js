@@ -11,9 +11,15 @@ import {
     GetResults,
     Login,
     GetAnswer,
-    GetAnswers,
+    GetAnswers as GetQuestionAnswers,
     SetAnswer,
-} from './controllers/API.Controller.js'
+} from './controllers/API.Controller'
+
+import {
+    GetAnswers as GetCandidateAnswers,
+} from './controllers/CandidateController'
+
+console.log(GetCandidateAnswers)
 
 const app = express()
 
@@ -35,7 +41,7 @@ const candidateMiddleware = jwt({
 // GET API
 app.get('/api/options', GetOptions)
 app.get('/api/questions', GetQuestions)
-app.get('/api/question/:question/answers', GetAnswers)
+app.get('/api/question/:question/answers', GetQuestionAnswers)
 app.get('/api/candidates', GetCandidates)
 app.get('/api/parties', GetParties)
 
@@ -44,6 +50,7 @@ app.post('/api/results', GetResults)
 app.post('/api/login', Login)
 
 // Authorized endpoints
+app.get('/api/answers', candidateMiddleware, GetCandidateAnswers)
 app.get('/api/answer/:questionId', candidateMiddleware, GetAnswer)
 app.post('/api/answer/:questionId', candidateMiddleware, SetAnswer)
 
