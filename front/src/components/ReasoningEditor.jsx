@@ -2,7 +2,7 @@ import React from 'react'
 
 import TextField from 'material-ui/TextField'
 
-const MAX_LENGTH = 200
+const MAX_LENGTH = 280
 
 const ReasoningEditor = ({questionId, text, onChange}) => (
     <TextField

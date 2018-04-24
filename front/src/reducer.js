@@ -38,6 +38,19 @@ export default ((state = initialState, action) => {
 
             break
 
+        case 'INIT_SESSION':
+            output.auth = {
+                token           : action.token,
+                expires         : action.decoded.exp * 1000,
+                user            : {
+                    ...action.decoded,
+                },
+            }
+
+            return output
+
+            break
+
         case 'NEXT_QUESTION':
             const all = Object.keys(output.questions)
             const answered = Object.keys(output.answers)
@@ -76,6 +89,17 @@ export default ((state = initialState, action) => {
                 ...state,
                 ...action.payload,
             }
+
+            break
+
+        case 'LOGOUT':
+            output.auth = null
+            output.answers = {}
+            output.activeQuestion = null
+            output.activeQuestionIndex = -1
+            output.reasonings = {}
+
+            return output
 
             break
 

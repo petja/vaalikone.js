@@ -3,6 +3,7 @@ import * as User from './models/User'
 import localForage from './models/db'
 
 import { throttle } from 'lodash'
+import jwtDecode from 'jwt-decode'
 
 export const ACTIONS = {
     SCORE_CANDIDATES            : {
@@ -20,6 +21,25 @@ export function questionsReceived(questions, options, candidates, parties) {
     }
 }
 
+export const INIT_SESSION = (token) => async dispatch => {
+    const decoded = jwtDecode(token)
+
+    await dispatch({
+        type                : 'INIT_SESSION',
+        token,
+        decoded,
+    })
+
+    await localForage.setItem('auth', token)
+}
+
+export const LOGOUT = () => async dispatch => {
+    await dispatch({
+        type                : 'LOGOUT',
+    })
+    await localForage.clear()
+}
+
 export const NEXT_QUESTION = () => ({
     type                : 'NEXT_QUESTION',
 })
@@ -30,7 +50,7 @@ export const REMOVE_ANSWER = (questionId) => async dispatch => {
         questionId,
     })
 
-    await PUSH_QUESTION_ANSWER(dispatch, questionId)
+    await dispatch(PUSH_QUESTION_ANSWER(questionId))
 }
 
 export const UPDATE_LOCALFORAGE = () => async dispatch => {
@@ -47,6 +67,8 @@ export const REHYDRATE = () => async dispatch => {
         type                : 'REHYDRATE',
         payload             : rehydrated,
     })
+
+    await dispatch(INIT_SESSION(await localForage.getItem('auth')))
 }
 
 export const SET_ANSWER = (questionId, answerId) => ({
@@ -57,19 +79,19 @@ export const SET_ANSWER = (questionId, answerId) => ({
 
 export const SET_ANSWER_AND_UPDATE_SCORES = (questionId, answerId) => async dispatch => {
     await dispatch(SET_ANSWER(questionId, answerId))
-    await dispatch(PUSH_QUESTION_ANSWER(dispatch, questionId))
+    await dispatch(PUSH_QUESTION_ANSWER(questionId))
     await dispatch(UPDATE_LOCALFORAGE())
     await dispatch(SCOREBOARD_UPDATE())
 }
 
-const PUSH_QUESTION_ANSWER = throttle(async (dispatch, questionId) => {
+const pusher = throttle(async (dispatch, questionId) => {
     await dispatch({
         type                : 'PUSH_QUESTION_ANSWER',
         questionId,
     })
 
     const state = store.getState()
-    const authToken = await User.getToken()
+    const authToken = state.auth.token
 
     await fetch(`/api/answer/${questionId}`, {
         method              : 'POST',
@@ -84,6 +106,8 @@ const PUSH_QUESTION_ANSWER = throttle(async (dispatch, questionId) => {
     })
 }, 2000, {leading: false})
 
+const PUSH_QUESTION_ANSWER = (questionId) => async dispatch => pusher(dispatch, questionId)
+
 export const SET_REASONING = (questionId, text) => async dispatch => {
     await dispatch({
         type            : 'SET_REASONING',
@@ -91,7 +115,7 @@ export const SET_REASONING = (questionId, text) => async dispatch => {
         text,
     })
 
-    await PUSH_QUESTION_ANSWER(dispatch, questionId)
+    await dispatch(PUSH_QUESTION_ANSWER(questionId))
 }
 
 export const SCOREBOARD_UPDATE = () => async dispatch => {

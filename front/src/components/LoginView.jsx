@@ -1,7 +1,6 @@
 import React from 'react'
 
 // Local
-import localForage from '../models/db'
 
 // Material UI
 import Typography from 'material-ui/Typography'
@@ -85,8 +84,8 @@ class LoginView extends React.Component {
                 {nextButton}
             </form>
         )
-        
-        const formContents = (
+
+        const beforeLoginView = (
             <React.Fragment>
                 <Typography variant='display1'>Kirjaudu sisään</Typography>
                 <Typography>käyttäen puoluetoimiston sinulle jakamia tunnuksia</Typography>
@@ -98,9 +97,21 @@ class LoginView extends React.Component {
             </React.Fragment>
         )
 
+        const afterLoginView = (
+            <React.Fragment>
+                <Typography variant='display1' gutterBottom>Olet kirjautunut sisään</Typography>
+
+                <Button
+                    onClick={this.props.onLogout}
+                    variant='raised'
+                    children='Kirjaudu ulos'
+                />
+            </React.Fragment>
+        )
+
         return (
             <Paper classes={{root: classes.root}}>
-                {formContents}
+                {this.props.loggedIn ? afterLoginView : beforeLoginView}
             </Paper>
         )
 
@@ -132,7 +143,7 @@ class LoginView extends React.Component {
             })
         }).then(resp => resp.json())
 
-        await localForage.setItem('auth_token', loginResp.token)
+        await this.props.onLogin(loginResp.token)
 
     }
 

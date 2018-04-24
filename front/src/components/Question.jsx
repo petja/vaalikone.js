@@ -28,11 +28,6 @@ const styles = theme => ({
 
 const EmptyState = ({onNextQuestion, classes}) => (
     <React.Fragment>
-        <img
-            src='https://images.pexels.com/photos/131743/pexels-photo-131743.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-            className={classes.picture}
-        />
-
         <Typography variant='headline' gutterBottom>Tervetuloa vaalikoneeseen</Typography>
         <Typography gutterBottom>Tähän jokin esittelyteksti :)</Typography>
 

@@ -13,6 +13,7 @@ const initialState = {
     activeQuestionIndex : -1,
     activeQuestion      : null,
     reasonings          : {},
+    auth                : null,
 }
 
 export default createStore(

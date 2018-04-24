@@ -15,7 +15,7 @@ const styles = theme => ({
         width           : '100%',
         zIndex          : theme.zIndex.bottomNavigation,
         boxShadow       : '0 0 0.5em rgba(0,0,0,0.25)',
-        background      : '#424242',
+        background      : '#060e11',
     },
     selected        : {
         color           : theme.palette.secondary['A400'],
@@ -23,7 +23,7 @@ const styles = theme => ({
 })
 
 const actions = [
-    ['Kysymykset', '/', <QuestionAnswer />],
+    ['Kysymykset', '/questions', <QuestionAnswer />],
     ['Ehdokkaat', '/candidates', <People />],
     ['Tietoja', '/about', <Info />],
 ]
