@@ -4,7 +4,7 @@ import Toolbar from '../components/Toolbar.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
     auth                    : state.auth,
-    electionName            : state.election.name || 'Vaalikone',
+    electionName            : state.election.name,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

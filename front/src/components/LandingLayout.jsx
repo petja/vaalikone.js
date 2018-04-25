@@ -22,7 +22,7 @@ const styles = theme => ({
 })
 
 const LandingLayout = ({match, election, classes, getElectionInfo}) => {
-    getElectionInfo(match.params.election)
+    if(!election.name) getElectionInfo(match.params.election)
 
     return (
         <React.Fragment>

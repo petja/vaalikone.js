@@ -29,7 +29,7 @@ const styles = theme => ({
 })
 
 const Toolbar = ({electionName, auth, match, history, classes, rows, getElectionInfo, onLogout, ...rest}) => {
-    getElectionInfo(match.params.election)
+    if(!electionName) getElectionInfo(match.params.election)
 
     return (
         <AppBar
