@@ -22,33 +22,29 @@ const styles = theme => ({
     },
 })
 
-const actions = [
-    ['Kysymykset', '/questions', <QuestionAnswer />],
-    ['Ehdokkaat', '/candidates', <People />],
-    ['Tietoja', '/about', <Info />],
-]
+const getLinks = (match) => ([
+    ['Kysymykset', `${match.url}/questions`, <QuestionAnswer />],
+    ['Ehdokkaat', `${match.url}/candidates`, <People />],
+    ['Tietoja', `${match.url}/about`, <Info />],
+])
 
-function NavigationBar(props) {
-    const {classes, history, location} = props
-
-    return (
-        <BottomNavigation
-            value={location.pathname}
-            showLabels
-            className={classes.root}
-            onChange={(e, url) => history.push(url)}
-        >
-            {actions.map(action => (
-                <BottomNavigationAction
-                    label={action[0]}
-                    key={action[1]}
-                    value={action[1]}
-                    icon={action[2]}
-                    classes={{selected: classes.selected}}
-                />
-            ))}
-        </BottomNavigation>
-    )
-}
+const NavigationBar = ({classes, history, location, match}) => (
+    <BottomNavigation
+        value={location.pathname}
+        showLabels
+        className={classes.root}
+        onChange={(e, url) => history.push(url)}
+    >
+        {getLinks(match).map(action => (
+            <BottomNavigationAction
+                label={action[0]}
+                key={action[1]}
+                value={action[1]}
+                icon={action[2]}
+                classes={{selected: classes.selected}}
+            />
+        ))}
+    </BottomNavigation>
+)
 
 export default withRouter(withStyles(styles)(NavigationBar))

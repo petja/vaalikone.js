@@ -28,29 +28,33 @@ const styles = theme => ({
     },
 })
 
-const Toolbar = ({auth, onLogout, history, classes, rows, ...rest}) => (
-    <AppBar
-        position='fixed'
-        className={classes.appBar}
-        {...rest}
-    >
-        <MuiToolbar className={classes.toolbar} style={{paddingBottom: `${(rows - 1) * 64}px`}}>
-            <Typography variant="title" color="inherit" className={classes.flex}>
-                Petjan vaalikone
-            </Typography>
+const Toolbar = ({electionName, auth, match, history, classes, rows, getElectionInfo, onLogout, ...rest}) => {
+    getElectionInfo(match.params.election)
 
-            <Button
-                variant='raised'
-                onClick={() => {
-                    history.push('/')
-                    onLogout()
-                }}
-            >
-                <Refresh />
-                Aloita alusta
-            </Button>
-        </MuiToolbar>
-    </AppBar>
-)
+    return (
+        <AppBar
+            position='fixed'
+            className={classes.appBar}
+            {...rest}
+        >
+            <MuiToolbar className={classes.toolbar} style={{paddingBottom: `${(rows - 1) * 64}px`}}>
+                <Typography variant="title" color="inherit" className={classes.flex}>
+                    {electionName}
+                </Typography>
+
+                <Button
+                    variant='raised'
+                    onClick={() => {
+                        history.push('/')
+                        onLogout()
+                    }}
+                >
+                    <Refresh />
+                    Aloita alusta
+                </Button>
+            </MuiToolbar>
+        </AppBar>
+    )
+}
 
 export default withRouter(withStyles(styles)(Toolbar))

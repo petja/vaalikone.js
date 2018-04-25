@@ -2,45 +2,56 @@ import React from 'react'
 
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
+import Paper from 'material-ui/Paper'
 import {withStyles} from 'material-ui/styles'
 
-import QuestionLayout from '../components/QuestionLayout.jsx'
-import CandidatesLayout from '../components/CandidatesLayout.jsx'
-import BottomNavigation from '../components/BottomNavigation.jsx'
-import LoginView from '../containers/LoginView.jsx'
+import FixedWidth from '../components/FixedWidth.jsx'
+import ConstituencySelect from '../components/ConstituencySelect.jsx'
 import Toolbar from '../containers/Toolbar.jsx'
 
 import {withRouter} from 'react-router-dom'
 
-import {ThemeProvider, primaryColor} from '../themes/DefaultTheme'
-
 const styles = theme => ({
     root            : {
-        background          : primaryColor['900'],
-        display             : 'inline-block',
-        width               : '100%',
-        height              : '100%',
-        padding             : '5em 1em 1em 1em',
-        boxSizing           : 'border-box',
+        padding         : '2em',
+        position        : 'relative',
+        zIndex          : theme.zIndex.floatingBody,
+        margin          : '64px auto',
+        textAlign       : 'center',
     },
 })
 
-const LandingLayout = ({history, classes}) => (
-    <ThemeProvider>
-        <Toolbar elevation={0} />
+const LandingLayout = ({match, election, classes, getElectionInfo}) => {
+    getElectionInfo(match.params.election)
 
-        <div className={classes.root}>
-            <Typography variant='display1'>Tervetuloa</Typography>
-            <Button
-                color='secondary'
-                variant='raised'
-                size='large'
-                onClick={() => history.push('/questions')}
-            >
-                Käynnistä vaalikone
-            </Button>
-        </div>
-    </ThemeProvider>
-)
+    return (
+        <React.Fragment>
+
+            <Toolbar rows={3} />
+
+            <FixedWidth>
+                <Paper className={classes.root}>
+                    <Typography variant='display1' gutterBottom>{election.name || 'Vaalikone'}</Typography>
+                    <Typography gutterBottom>Vastaa kysymyksiin ja löydä sinulle parhaiten sopiva ehdokas</Typography>
+
+                    <br /><br />
+                    <ConstituencySelect items={election.constituencies || []} />
+                    <br /><br />
+                    <br /><br />
+
+                    <Button
+                        color='secondary'
+                        variant='raised'
+                        size='large'
+                        onClick={() => console.log(match.params.election, constituency)}
+                    >
+                        Käynnistä vaalikone
+                    </Button>
+                </Paper>
+            </FixedWidth>
+
+        </React.Fragment>
+    )
+}
 
 export default withRouter(withStyles(styles)(LandingLayout))

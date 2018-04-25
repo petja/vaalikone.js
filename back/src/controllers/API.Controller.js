@@ -3,6 +3,7 @@ import knex from '../db'
 import * as User from '../User'
 import * as Candidate from '../Candidate'
 import * as Question from '../Question'
+import * as Election from '../Election'
 
 // This is required for async/await functions
 const asyncMiddleware = fn => (req, res, next) => {
@@ -48,6 +49,13 @@ export const GetAnswers = asyncMiddleware(async (req, res, next) => {
     const answers = await Question.getAnswers(questionId)
 
     res.json(answers)
+})
+
+export const GetElection = asyncMiddleware(async (req, res, next) => {
+    const slug: string = req.params.election
+    const election: object = await Election.getBySlug(slug)
+
+    res.json(election)
 })
 
 export const GetAnswer = asyncMiddleware(async (req, res, next) => {

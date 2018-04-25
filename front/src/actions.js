@@ -40,6 +40,20 @@ export const LOGOUT = () => async dispatch => {
     await localForage.clear()
 }
 
+export const ELECTION_INFO = (slug) => async dispatch => {
+    const elections = await localForage.getItem('elections') || {}
+
+    if(!elections[slug]) {
+        elections[slug] = await fetch(`/api/election/${slug}`).then(resp => resp.json())
+        await localForage.setItem('elections', elections)
+    }
+
+    await dispatch({
+        type                : 'ELECTION_INFO',
+        election            : elections[slug]
+    })
+}
+
 export const NEXT_QUESTION = () => ({
     type                : 'NEXT_QUESTION',
 })

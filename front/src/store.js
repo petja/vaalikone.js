@@ -14,6 +14,7 @@ const initialState = {
     activeQuestion      : null,
     reasonings          : {},
     auth                : null,
+    election            : {},
 }
 
 export default createStore(

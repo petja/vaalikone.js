@@ -13,6 +13,7 @@ import {
     GetAnswer,
     GetAnswers as GetQuestionAnswers,
     SetAnswer,
+    GetElection,
 } from './controllers/API.Controller'
 
 import {
@@ -39,10 +40,12 @@ const candidateMiddleware = jwt({
 })
 
 // GET API
+//app.get('/api/:election/constituencies', GetConstituencies)
 app.get('/api/options', GetOptions)
-app.get('/api/questions', GetQuestions)
+app.get('/api/election/:election', GetElection)
+app.get('/api/:election/questions', GetQuestions)
 app.get('/api/question/:question/answers', GetQuestionAnswers)
-app.get('/api/candidates', GetCandidates)
+app.get('/api/:election/candidates', GetCandidates)
 app.get('/api/parties', GetParties)
 
 // POST API
@@ -53,6 +56,8 @@ app.post('/api/login', Login)
 app.get('/api/answers', candidateMiddleware, GetCandidateAnswers)
 app.get('/api/answer/:questionId', candidateMiddleware, GetAnswer)
 app.post('/api/answer/:questionId', candidateMiddleware, SetAnswer)
+
+app.all('/api/*', (req, res) => res.status(404))
 
 
 // Static

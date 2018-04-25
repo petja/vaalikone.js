@@ -103,6 +103,13 @@ export default ((state = initialState, action) => {
 
             break
 
+        case 'ELECTION_INFO':
+            output.election = action.election
+
+            return output
+
+            break
+
         default:
             return state
     }
