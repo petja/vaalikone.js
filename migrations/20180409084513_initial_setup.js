@@ -2,13 +2,13 @@ exports.up = async (knex, Promise) => {
 
     await knex.schema.createTable('parties', (table) => {
         table.increments('id').primary()
-        table.string('name', 20)
+        table.string('name')
     })
 
     await knex.schema.createTable('candidates', (table) => {
         table.increments('id').primary()
-        table.string('firstname', 20)
-        table.string('lastname', 20)
+        table.string('firstname')
+        table.string('lastname')
         table.integer('party').unsigned().references('parties.id')
         table.text('description')
     })
@@ -20,7 +20,7 @@ exports.up = async (knex, Promise) => {
 
     await knex.schema.createTable('options', (table) => {
         table.increments('id').primary()
-        table.string('text', 50)
+        table.string('text')
         table.integer('value')
     })
 
