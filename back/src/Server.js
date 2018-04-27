@@ -20,7 +20,8 @@ import {
     GetAnswers as GetCandidateAnswers,
 } from './controllers/CandidateController'
 
-console.log(GetCandidateAnswers)
+import * as QuestionController from './controllers/QuestionController'
+import * as CandidateController from './controllers/CandidateController'
 
 const app = express()
 
@@ -40,13 +41,25 @@ const candidateMiddleware = jwt({
 })
 
 // GET API
-//app.get('/api/:election/constituencies', GetConstituencies)
 app.get('/api/options', GetOptions)
 app.get('/api/election/:election', GetElection)
-app.get('/api/:election/questions', GetQuestions)
-app.get('/api/question/:question/answers', GetQuestionAnswers)
-app.get('/api/:election/candidates', GetCandidates)
 app.get('/api/parties', GetParties)
+
+app.get('/api/constituency/:constituency/questions',
+    QuestionController.GetByConstituency
+)
+
+app.get('/api/constituency/:constituency/questions/:question/answers',
+    QuestionController.GetAnswers
+)
+
+/*app.get('/api/constituency/:constituency/candidates',
+    CandidateController.GetByConstituency
+)
+
+app.get('/api/candidates/:candidate',
+    CandidateController.GetById
+)*/
 
 // POST API
 app.post('/api/results', GetResults)
@@ -57,7 +70,7 @@ app.get('/api/answers', candidateMiddleware, GetCandidateAnswers)
 app.get('/api/answer/:questionId', candidateMiddleware, GetAnswer)
 app.post('/api/answer/:questionId', candidateMiddleware, SetAnswer)
 
-app.all('/api/*', (req, res) => res.status(404))
+app.all('/api/*', (req, res) => res.status(404).end('Not found'))
 
 
 // Static
