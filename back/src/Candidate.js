@@ -144,3 +144,14 @@ export async function getAnswer(candidateId: Number, questionId: Number): object
 
     return answer
 }
+
+export async function getParties() {
+    const parties = await knex
+        .select('id', 'name')
+        .from('parties')
+
+    return parties.reduce((acc, party) => {
+        acc[party.id] = party.name
+        return acc
+    }, {})
+}

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {FETCH_CANDIDATES} from '../actions'
+import {FETCH_CANDIDATES, FETCH_PARTIES} from '../actions'
 import CandidateList from '../components/CandidateList.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     fetchCandidates         : () => dispatch(FETCH_CANDIDATES()),
+    fetchParties            : () => dispatch(FETCH_PARTIES()),
 })
 
 const container = connect(

@@ -7,6 +7,7 @@ const initialState = {
     constituency        : null,
     election            : {},
     options             : {},
+    parties             : {},
     questions           : {},
     reasonings          : {},
     scoreboard          : {},
@@ -134,13 +135,26 @@ export default ((state = initialState, action) => {
 
             break
 
-        case 'SET_CONSTITUENCY':
-            const slug = action.constituency
-            //const constituencyId = state.election.constituencies[slug].id
-
+        case 'FETCH_OPTIONS':
             return {
                 ...state,
-                constituencyId: slug,
+                options         : action.options,
+            }
+
+            break
+
+        case 'FETCH_CANDIDATES':
+            return {
+                ...state,
+                candidates      : action.candidates,
+            }
+
+            break
+
+        case 'FETCH_PARTIES':
+            return {
+                ...state,
+                parties         : action.parties,
             }
 
             break

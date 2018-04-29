@@ -43,7 +43,9 @@ const candidateMiddleware = jwt({
 // GET API
 app.get('/api/options', GetOptions)
 app.get('/api/election/:election', GetElection)
-app.get('/api/parties', GetParties)
+app.get('/api/parties',
+    CandidateController.GetParties
+)
 
 app.get('/api/constituency/:constituency/questions',
     QuestionController.GetByConstituency

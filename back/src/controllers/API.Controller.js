@@ -25,14 +25,6 @@ export const GetCandidates = asyncMiddleware(async (req, res, next) => {
     res.json(candidates)
 })
 
-export const GetParties = asyncMiddleware(async (req, res, next) => {
-    const query = await knex
-        .select('*')
-        .from('parties')
-
-    res.json(query)
-})
-
 export const GetResults = asyncMiddleware(async (req, res, next) => {
     const responses = await Candidate.scoreCandidates(req.body)
     res.json(responses)

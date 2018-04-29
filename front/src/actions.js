@@ -52,6 +52,27 @@ export const FETCH_ELECTION_INFO = (electionSlug, constituencySlug) => async dis
 }
 
 export const FETCH_CANDIDATES = () => async dispatch => {
+    const state = store.getState()
+
+    const candidates = await fetch(`/api/constituency/${state.root.constituency}/candidates`)
+        .then(resp => resp.json())
+
+    await dispatch({
+        type                : 'FETCH_CANDIDATES',
+        candidates,
+    })
+}
+
+export const FETCH_PARTIES = () => async dispatch => {
+    const state = store.getState()
+
+    const parties = await fetch(`/api/parties`)
+        .then(resp => resp.json())
+
+    await dispatch({
+        type                : 'FETCH_PARTIES',
+        parties,
+    })
 }
 
 export const FETCH_QUESTIONS = () => async dispatch => {
@@ -62,7 +83,7 @@ export const FETCH_QUESTIONS = () => async dispatch => {
 
     await dispatch({
         type                : 'FETCH_QUESTIONS',
-        questions           : questions,
+        questions,
     })
 
     await dispatch(NEXT_QUESTION())
@@ -170,3 +191,13 @@ export const GO_QUESTION_ID = questionId => ({
     type                : 'GO_QUESTION_ID',
     questionId,
 })
+
+export const FETCH_OPTIONS = () => async dispatch => {
+    const options = await fetch('/api/options')
+        .then(resp => resp.json())
+
+    dispatch({
+        type            : 'FETCH_OPTIONS',
+        options,
+    })
+}

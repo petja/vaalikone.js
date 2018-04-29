@@ -19,3 +19,9 @@ export const GetAnswers = async (req, res, next) => {
 
     res.json(answers)
 }
+
+export const GetParties = async (req, res, next) => {
+    const parties = await Candidate.getParties()
+
+    res.json(parties)
+}

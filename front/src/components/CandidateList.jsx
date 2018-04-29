@@ -15,10 +15,12 @@ import { withStyles } from 'material-ui/styles'
 
 import CandidateRow from '../components/CandidateRow.jsx'
 
-function CandidateList({candidates, parties, scoreboard, fetchCandidates}) {
+function CandidateList({candidates, parties, scoreboard, fetchCandidates, fetchParties}) {
     const candidateIds = Object.keys(candidates)
+    const partyIds = Object.keys(parties)
 
     if (candidateIds.length < 1) fetchCandidates()
+    if (partyIds.length < 1) fetchParties()
 
     // Mapping
     const candidateList = candidateIds.map(candidateId => {

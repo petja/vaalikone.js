@@ -16,11 +16,12 @@ import {Route, Switch} from 'react-router-dom'
 
 import {ThemeProvider} from '../themes/DefaultTheme'
 
-const MainLayout = ({match, fetchElectionInfo}) => {
+const MainLayout = ({match, fetchElectionInfo, fetchOptions}) => {
     const state = store.getState()
 
     if (isEmpty(state.root.election)) {
         fetchElectionInfo(match.params.election, match.params.constituency)
+        fetchOptions()
     }
 
     return (
