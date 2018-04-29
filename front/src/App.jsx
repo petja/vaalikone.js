@@ -2,13 +2,16 @@
 require("regenerator-runtime/runtime")
 
 import React from 'react'
-import { render } from 'react-dom'
+import {render} from 'react-dom'
 
 import store from './store'
 import localForage from './models/db'
 
-import { Provider } from 'react-redux'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {Provider} from 'react-redux'
+
+import history from './history'
+import {Route, Switch} from 'react-router-dom'
+import {ConnectedRouter, push} from 'react-router-redux'
 
 import MainLayout from './components/MainLayout.jsx'
 import LandingLayout from './containers/LandingLayout.jsx'
@@ -24,7 +27,7 @@ render((
 
     <ThemeProvider>
         <Provider store={store}>
-            <Router>
+            <ConnectedRouter history={history}>
                 <Switch>
                     <Route exact path='/' component={() => 'Please use election specific URL'} />
 
@@ -32,7 +35,7 @@ render((
                     <Route exact path='/:election' component={LandingLayout} />
                     <Route path='/:election/:constituency' component={MainLayout} />
                 </Switch>
-            </Router>
+            </ConnectedRouter>
         </Provider>
     </ThemeProvider>
 

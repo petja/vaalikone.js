@@ -3,18 +3,22 @@ import { SET_ANSWER_AND_UPDATE_SCORES, REMOVE_ANSWER, NEXT_QUESTION } from '../a
 import Question from '../components/Question.jsx'
 
 const mapStateToProps = (state, ownProps) => {
-    const question = state.questions[state.activeQuestion]
+    const question = state.root.questions[state.root.activeQuestion]
+
     if(!question) return {}
 
     return {
-        questionId          : state.activeQuestion,
         ...question,
-        options             : Object.values(question.options).map(optionId => (
-            {id: optionId, text: state.options[optionId]}
-        )),
-        currentAnswer       : state.answers[state.activeQuestion],
 
-        userRole            : (state.auth ? state.auth.user.role : null),
+        questionId          : state.root.activeQuestion,
+
+        options             : Object.values(question.options).map(optionId => (
+            {id: optionId, text: state.root.options[optionId]}
+        )),
+
+        currentAnswer       : state.root.answers[state.activeQuestion],
+
+        userRole            : (state.root.auth ? state.root.auth.user.role : null),
     }
 }
 

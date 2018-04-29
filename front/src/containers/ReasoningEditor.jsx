@@ -3,8 +3,8 @@ import {SET_REASONING} from '../actions'
 import ReasoningEditor from '../components/ReasoningEditor.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
-    questionId              : state.activeQuestion,
-    text                    : state.reasonings[state.activeQuestion] || '',
+    questionId              : state.root.activeQuestion,
+    text                    : state.root.reasonings[state.activeQuestion] || '',
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -23,13 +23,19 @@ const styles = theme => ({
     },
     appBar              : {
         background          : primaryColor['900'],
-        backgroundImage     : 'url("https://www.transparenttextures.com/patterns/inspiration-geometry.png")',
         color               : '#FFF',
     },
 })
 
-const Toolbar = ({electionName, auth, match, history, classes, rows, getElectionInfo, onLogout, ...rest}) => {
-    if(!electionName) getElectionInfo(match.params.election)
+const Toolbar = ({election, auth, match, history, classes, rows, getElectionInfo, onLogout, ...rest}) => {
+    if(!election.name) getElectionInfo(match.params.election)
+
+    const constituency = election.constituencies && election.constituencies[match.params.constituency]
+
+    const titleParts = []
+    if(election.name) titleParts.push(election.name)
+    if(constituency) titleParts.push(constituency.name)
+    if(constituency) titleParts.push(constituency.id)
 
     return (
         <AppBar
@@ -39,7 +45,7 @@ const Toolbar = ({electionName, auth, match, history, classes, rows, getElection
         >
             <MuiToolbar className={classes.toolbar} style={{paddingBottom: `${(rows - 1) * 64}px`}}>
                 <Typography variant="title" color="inherit" className={classes.flex}>
-                    {electionName}
+                    {titleParts.length > 0 ? titleParts.join(' / ') : 'Vaalikone'}
                 </Typography>
 
                 <Button

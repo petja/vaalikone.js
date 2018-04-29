@@ -1,3 +1,18 @@
+const initialState = {
+    activeQuestion      : null,
+    activeQuestionIndex : -1,
+    answers             : {},
+    auth                : null,
+    candidates          : {},
+    election            : {},
+    options             : {},
+    questions           : {},
+    reasonings          : {},
+    scoreboard          : {},
+}
+
+console.log(initialState)
+
 export default ((state = initialState, action) => {
     const output = {...state}
 

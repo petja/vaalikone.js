@@ -22,7 +22,7 @@ const styles = theme => ({
 })
 
 const LandingLayout = ({match, election, classes, getElectionInfo}) => {
-    if(!election.name) getElectionInfo(match.params.election)
+    if(!election || !election.name) getElectionInfo(match.params.election)
 
     return (
         <React.Fragment>
@@ -35,7 +35,7 @@ const LandingLayout = ({match, election, classes, getElectionInfo}) => {
                     <Typography gutterBottom>Vastaa kysymyksiin ja löydä sinulle parhaiten sopiva ehdokas</Typography>
 
                     <br /><br />
-                    <ConstituencySelect items={election.constituencies || []} />
+                    <ConstituencySelect items={election.constituencies || {}} />
                     <br /><br />
                     <br /><br />
 
@@ -47,6 +47,9 @@ const LandingLayout = ({match, election, classes, getElectionInfo}) => {
                     >
                         Käynnistä vaalikone
                     </Button>
+
+                    <br /><br />
+                    <Typography variant='caption'>Sivusto kerää ja tallentaa tietoja sivuston käyttäjistä ja käyttötavoista paremman käyttäjäkokemuksen takaamiseksi. Näitä tietoja saatetaan jakaa kolmansien osapuolien kanssa, jotka voivat sijaita myös EU-alueen ulkopuolella. Tämä ilmoitus on sinänsä turha, koska harvassa on sivustot jotka eivät näin jo tekisi. Kiitos kuitenkin lainsäädännön, näitä itsestäänselviä ilmoituksia tulee laatia sekä käyttäjää että devaajaa ärsyttämään. Jatkamalla sivuston käyttöä, hyväksyt nämä ehdot.</Typography>
                 </Paper>
             </FixedWidth>
 

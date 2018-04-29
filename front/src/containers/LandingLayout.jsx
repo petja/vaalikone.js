@@ -3,7 +3,7 @@ import {ELECTION_INFO} from '../actions'
 import LandingLayout from '../components/LandingLayout.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
-    election                : state.election,
+    election                : state.root.election,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

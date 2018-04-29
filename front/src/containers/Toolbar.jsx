@@ -3,8 +3,8 @@ import {LOGOUT, ELECTION_INFO} from '../actions'
 import Toolbar from '../components/Toolbar.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
-    auth                    : state.auth,
-    electionName            : state.election.name,
+    auth                    : state.root.auth,
+    election                : state.root.election,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

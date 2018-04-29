@@ -3,9 +3,9 @@ import { GO_QUESTION_ID } from '../actions'
 import QuestionProgress from '../components/QuestionProgress.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
-    questions               : Object.keys(state.questions),
-    completed               : Object.keys(state.answers),
-    activeQuestion          : state.activeQuestion,
+    questions               : Object.keys(state.root.questions),
+    completed               : Object.keys(state.root.answers),
+    activeQuestion          : state.root.activeQuestion,
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

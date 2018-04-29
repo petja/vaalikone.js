@@ -11,17 +11,23 @@ class ConstituencySelect extends React.Component {
     render() {
         const {items, value, onChange} = this.props
 
-        const itemComponents = items.map(item => (
-            <MenuItem
-                value={item.id}
-                key={item.id}
-                children={item.name}
-            />
-        ))
+        const itemComponents = [
+            <MenuItem key='' value='initial'>
+                <em>Valitse vaalipiiri</em>
+            </MenuItem>,
+
+            ...Object.keys(items).map(slug => (
+                <MenuItem
+                    value={items[slug].id}
+                    key={items[slug].id}
+                    children={items[slug].name}
+                />
+            ))
+        ]
 
         return (
             <Select
-                value='east'
+                value='initial'
                 onChange={onChange}
                 children={itemComponents}
             />

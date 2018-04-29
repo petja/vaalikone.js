@@ -4,9 +4,9 @@ import CandidateList from '../components/CandidateList.jsx'
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        candidates              : state.candidates,
-        scoreboard              : state.scoreboard,
-        parties                 : state.parties,
+        candidates              : state.root.candidates,
+        scoreboard              : state.root.scoreboard,
+        parties                 : state.root.parties,
     }
 }
 

@@ -27,6 +27,7 @@
         "classnames": "^2.2.5",
         "express": "^4.16.3",
         "express-jwt": "^5.3.1",
+        "history": "^4.7.2",
         "json-fetch": "^7.5.0",
         "jsonwebtoken": "^8.2.1",
         "jwt-decode": "^2.2.0",
@@ -39,6 +40,7 @@
         "react-dom": "^16.3.1",
         "react-redux": "^5.0.7",
         "react-router-dom": "^4.2.2",
+        "react-router-redux": "^5.0.0-alpha.9",
         "react-swipeable-views": "^0.12.13",
         "redux": "^3.7.2",
         "redux-thunk": "^2.2.0"

@@ -1,26 +1,19 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import {routerReducer, routerMiddleware} from 'react-router-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
-
-import reducer from './reducer'
 import thunk from 'redux-thunk'
 
-const initialState = {
-    answers             : {},
-    questions           : {},
-    options             : {},
-    candidates          : {},
-    scoreboard          : {},
-    activeQuestionIndex : -1,
-    activeQuestion      : null,
-    reasonings          : {},
-    auth                : null,
-    election            : {},
-}
+import reducer from './reducer'
+import history from './history'
 
+console.log(routerMiddleware(history))
 export default createStore(
-    reducer,
-    initialState,
+    combineReducers({
+        root        : reducer,
+        router      : routerReducer,
+    }),
+
     composeWithDevTools(
-        applyMiddleware(thunk)
+        applyMiddleware(thunk, routerMiddleware(history))
     )
 )

@@ -5,7 +5,7 @@ import LoginView from '../components/LoginView.jsx'
 const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
-        loggedIn            : state.auth,
+        loggedIn            : state.root.auth,
     }
 }
 
