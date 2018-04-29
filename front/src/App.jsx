@@ -18,7 +18,7 @@ import {ConnectedRouter, push} from 'react-router-redux'
 import {REHYDRATE} from './actions'
 
 // Own components
-import MainLayout from './components/MainLayout.jsx'
+import MainLayout from './containers/MainLayout.jsx'
 import LandingLayout from './containers/LandingLayout.jsx'
 import LoginView from './containers/LoginView.jsx'
 

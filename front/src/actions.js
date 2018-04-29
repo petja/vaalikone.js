@@ -41,30 +41,31 @@ export const LOGOUT = () => async dispatch => {
     await localForage.clear()
 }
 
-export const ELECTION_INFO = (slug) => async dispatch => {
-    const elections = await localForage.getItem('elections') || {}
-
-    if(!elections[slug]) {
-        elections[slug] = await fetch(`/api/election/${slug}`).then(resp => resp.json())
-        await localForage.setItem('elections', elections)
-    }
+export const FETCH_ELECTION_INFO = (electionSlug, constituencySlug) => async dispatch => {
+    const election = await fetch(`/api/election/${electionSlug}`).then(resp => resp.json())
 
     await dispatch({
-        type                : 'ELECTION_INFO',
-        election            : elections[slug]
+        type                : 'FETCH_ELECTION_INFO',
+        constituency        : election.constituencies[constituencySlug].id,
+        election,
     })
 }
 
-export const FETCH_CANDIDATES = (slug) => async dispatch => {
+export const FETCH_CANDIDATES = () => async dispatch => {
+}
+
+export const FETCH_QUESTIONS = () => async dispatch => {
     const state = store.getState()
 
-    const questions = await fetch(`/api/constituency/${state.root.election.id}/questions`)
+    const questions = await fetch(`/api/constituency/${state.root.constituency}/questions`)
         .then(resp => resp.json())
 
     await dispatch({
         type                : 'FETCH_QUESTIONS',
         questions           : questions,
     })
+
+    await dispatch(NEXT_QUESTION())
 }
 
 export const NEXT_QUESTION = () => ({
@@ -82,7 +83,7 @@ export const REMOVE_ANSWER = (questionId) => async dispatch => {
 
 export const UPDATE_LOCALFORAGE = () => async dispatch => {
     const state = store.getState()
-    await localForage.setItem('answers', state.answers)
+    await localForage.setItem('answers', state.root.answers)
 }
 
 export const REHYDRATE = () => async dispatch => {

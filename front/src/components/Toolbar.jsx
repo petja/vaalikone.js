@@ -27,9 +27,7 @@ const styles = theme => ({
     },
 })
 
-const Toolbar = ({election, auth, match, history, classes, rows, getElectionInfo, onLogout}) => {
-    if(!election.name) getElectionInfo(match.params.election)
-
+const Toolbar = ({election, auth, match, history, classes, rows, onLogout}) => {
     const constituency = election.constituencies && election.constituencies[match.params.constituency]
 
     return (

@@ -4,14 +4,13 @@ const initialState = {
     answers             : {},
     auth                : null,
     candidates          : {},
+    constituency        : null,
     election            : {},
     options             : {},
     questions           : {},
     reasonings          : {},
     scoreboard          : {},
 }
-
-console.log(initialState)
 
 export default ((state = initialState, action) => {
     const output = {...state}
@@ -118,17 +117,31 @@ export default ((state = initialState, action) => {
 
             break
 
-        case 'ELECTION_INFO':
-            output.election = action.election
-
-            return output
+        case 'FETCH_ELECTION_INFO':
+            return {
+                ...state,
+                election            : action.election,
+                constituency        : action.constituency,
+            }
 
             break
 
         case 'FETCH_QUESTIONS':
-            output.questions = action.questions
+            return {
+                ...state,
+                questions       : action.questions,
+            }
 
-            return output
+            break
+
+        case 'SET_CONSTITUENCY':
+            const slug = action.constituency
+            //const constituencyId = state.election.constituencies[slug].id
+
+            return {
+                ...state,
+                constituencyId: slug,
+            }
 
             break
 

@@ -1,12 +1,15 @@
 import React from 'react'
 
 import Typography from 'material-ui/Typography'
-import Card, {CardActions, CardContent} from 'material-ui/Card'
+import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
 import Radio from 'material-ui/Radio'
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
+
+import { withRouter } from 'react-router-dom'
+import {isEmpty} from 'lodash'
 
 import ReasoningList from '../containers/ReasoningList.jsx'
 import ReasoningEditor from '../containers/ReasoningEditor.jsx'
@@ -14,6 +17,9 @@ import ReasoningEditor from '../containers/ReasoningEditor.jsx'
 //import {CheckCircle} from '@material-ui/icons'
 
 const styles = theme => ({
+    root            : {
+        padding         : '1em',
+    },
     picture         : {
         maxWidth        : '100em',
         width           : '100%',
@@ -26,21 +32,9 @@ const styles = theme => ({
     },
 })
 
-const EmptyState = ({onNextQuestion, classes}) => (
-    <React.Fragment>
-        <Typography variant='headline' gutterBottom>Tervetuloa vaalikoneeseen</Typography>
-        <Typography gutterBottom>Tähän jokin esittelyteksti :)</Typography>
+const Question = ({election, questionId, text, currentAnswer, options = [], onAnswer, onNextQuestion, onRemoveAnswer, fetchQuestions, classes}) => {
 
-        <Button
-            variant='raised'
-            color='secondary'
-            onClick={onNextQuestion}
-            children='Aloita'
-        />
-    </React.Fragment>
-)
-
-const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQuestion, onRemoveAnswer, classes}) => {
+    if(!isEmpty(election) && !questionId) fetchQuestions()
 
     const headline = (
         <Typography variant='headline'>{text}</Typography>
@@ -103,7 +97,7 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
     )
 
     return (
-        <React.Fragment>
+        <Paper className={classes.root}>
             <div className={classes.section}>
                 {headline}
             </div>
@@ -128,16 +122,8 @@ const Question = ({questionId, text, currentAnswer, options, onAnswer, onNextQue
                 {secondaryButton}
                 {nextButton}
             </div>
-        </React.Fragment>
+        </Paper>
     )
 }
 
-const QuestionContainer = props => (
-    <Card>
-        <CardContent>
-            {props.questionId ? Question(props) : EmptyState(props)}
-        </CardContent>
-    </Card>
-)
-
-export default withStyles(styles)(QuestionContainer)
+export default withRouter(withStyles(styles)(Question))

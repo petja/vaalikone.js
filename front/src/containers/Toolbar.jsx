@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {LOGOUT, ELECTION_INFO} from '../actions'
+import {LOGOUT} from '../actions'
 import Toolbar from '../components/Toolbar.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -8,7 +8,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    getElectionInfo         : (slug) => dispatch(ELECTION_INFO(slug)),
     onLogout                : () => dispatch(LOGOUT()),
 })
 

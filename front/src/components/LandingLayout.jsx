@@ -21,40 +21,36 @@ const styles = theme => ({
     },
 })
 
-const LandingLayout = ({match, election, classes, getElectionInfo}) => {
-    if(!election || !election.name) getElectionInfo(match.params.election)
+const LandingLayout = ({match, election, classes}) => (
+    <React.Fragment>
 
-    return (
-        <React.Fragment>
+        <Toolbar rows={3} />
 
-            <Toolbar rows={3} />
+        <FixedWidth>
+            <Paper className={classes.root}>
+                <Typography variant='display1' gutterBottom>{election.name || 'Vaalikone'}</Typography>
+                <Typography gutterBottom>Vastaa kysymyksiin ja löydä sinulle parhaiten sopiva ehdokas</Typography>
 
-            <FixedWidth>
-                <Paper className={classes.root}>
-                    <Typography variant='display1' gutterBottom>{election.name || 'Vaalikone'}</Typography>
-                    <Typography gutterBottom>Vastaa kysymyksiin ja löydä sinulle parhaiten sopiva ehdokas</Typography>
+                <br /><br />
+                <ConstituencySelect items={election.constituencies || {}} />
+                <br /><br />
+                <br /><br />
 
-                    <br /><br />
-                    <ConstituencySelect items={election.constituencies || {}} />
-                    <br /><br />
-                    <br /><br />
+                <Button
+                    color='secondary'
+                    variant='raised'
+                    size='large'
+                    onClick={() => console.log(match.params.election, constituency)}
+                >
+                    Käynnistä vaalikone
+                </Button>
 
-                    <Button
-                        color='secondary'
-                        variant='raised'
-                        size='large'
-                        onClick={() => console.log(match.params.election, constituency)}
-                    >
-                        Käynnistä vaalikone
-                    </Button>
+                <br /><br />
+                <Typography variant='caption'>Sivusto kerää ja tallentaa tietoja sivuston käyttäjistä ja käyttötavoista paremman käyttäjäkokemuksen takaamiseksi. Näitä tietoja saatetaan jakaa kolmansien osapuolien kanssa, jotka voivat sijaita myös EU-alueen ulkopuolella. Tämä ilmoitus on sinänsä turha, koska harvassa on sivustot jotka eivät näin jo tekisi. Kiitos kuitenkin lainsäädännön, näitä itsestäänselviä ilmoituksia tulee laatia sekä käyttäjää että devaajaa ärsyttämään. Jatkamalla sivuston käyttöä, hyväksyt nämä ehdot.</Typography>
+            </Paper>
+        </FixedWidth>
 
-                    <br /><br />
-                    <Typography variant='caption'>Sivusto kerää ja tallentaa tietoja sivuston käyttäjistä ja käyttötavoista paremman käyttäjäkokemuksen takaamiseksi. Näitä tietoja saatetaan jakaa kolmansien osapuolien kanssa, jotka voivat sijaita myös EU-alueen ulkopuolella. Tämä ilmoitus on sinänsä turha, koska harvassa on sivustot jotka eivät näin jo tekisi. Kiitos kuitenkin lainsäädännön, näitä itsestäänselviä ilmoituksia tulee laatia sekä käyttäjää että devaajaa ärsyttämään. Jatkamalla sivuston käyttöä, hyväksyt nämä ehdot.</Typography>
-                </Paper>
-            </FixedWidth>
-
-        </React.Fragment>
-    )
-}
+    </React.Fragment>
+)
 
 export default withRouter(withStyles(styles)(LandingLayout))

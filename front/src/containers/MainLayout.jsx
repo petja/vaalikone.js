@@ -1,18 +1,18 @@
 import {connect} from 'react-redux'
-//import {ELECTION_INFO} from '../actions'
-import LandingLayout from '../components/LandingLayout.jsx'
+import {FETCH_ELECTION_INFO} from '../actions'
+import MainLayout from '../components/MainLayout.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
-    election                : state.root.election,
+    //
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    //
+    fetchElectionInfo   : (election, constituency) => dispatch(FETCH_ELECTION_INFO(election, constituency)),
 })
 
 const container = connect(
     mapStateToProps,
     mapDispatchToProps
-)(LandingLayout)
+)(MainLayout)
 
 export default container
