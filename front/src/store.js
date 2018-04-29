@@ -6,7 +6,6 @@ import thunk from 'redux-thunk'
 import reducer from './reducer'
 import history from './history'
 
-console.log(routerMiddleware(history))
 export default createStore(
     combineReducers({
         root        : reducer,

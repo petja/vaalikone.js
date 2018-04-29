@@ -125,6 +125,13 @@ export default ((state = initialState, action) => {
 
             break
 
+        case 'FETCH_QUESTIONS':
+            output.questions = action.questions
+
+            return output
+
+            break
+
         default:
             return state
     }

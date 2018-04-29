@@ -1,6 +1,7 @@
 import store from './store'
 import * as User from './models/User'
 import localForage from './models/db'
+import history from './history'
 
 import { throttle } from 'lodash'
 import jwtDecode from 'jwt-decode'
@@ -51,6 +52,18 @@ export const ELECTION_INFO = (slug) => async dispatch => {
     await dispatch({
         type                : 'ELECTION_INFO',
         election            : elections[slug]
+    })
+}
+
+export const FETCH_CANDIDATES = (slug) => async dispatch => {
+    const state = store.getState()
+
+    const questions = await fetch(`/api/constituency/${state.root.election.id}/questions`)
+        .then(resp => resp.json())
+
+    await dispatch({
+        type                : 'FETCH_QUESTIONS',
+        questions           : questions,
     })
 }
 

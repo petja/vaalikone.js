@@ -4,24 +4,27 @@ require("regenerator-runtime/runtime")
 import React from 'react'
 import {render} from 'react-dom'
 
+// Own utils
 import store from './store'
 import localForage from './models/db'
 
-import {Provider} from 'react-redux'
-
+// Redux & Routing
 import history from './history'
+import {Provider} from 'react-redux'
 import {Route, Switch} from 'react-router-dom'
 import {ConnectedRouter, push} from 'react-router-redux'
 
+// Action creators
+import {REHYDRATE} from './actions'
+
+// Own components
 import MainLayout from './components/MainLayout.jsx'
 import LandingLayout from './containers/LandingLayout.jsx'
 import LoginView from './containers/LoginView.jsx'
 
 import {ThemeProvider} from './themes/DefaultTheme'
 
-// Models
-import * as QuestionModel from './models/Question'
-QuestionModel.getAll()
+store.dispatch(REHYDRATE())
  
 render((
 

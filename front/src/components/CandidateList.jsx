@@ -15,9 +15,13 @@ import { withStyles } from 'material-ui/styles'
 
 import CandidateRow from '../components/CandidateRow.jsx'
 
-function CandidateList({candidates, parties, scoreboard}) {
+function CandidateList({candidates, parties, scoreboard, fetchCandidates}) {
+    const candidateIds = Object.keys(candidates)
+
+    if (candidateIds.length < 1) fetchCandidates()
+
     // Mapping
-    const candidateList = Object.keys(candidates || {}).map(candidateId => {
+    const candidateList = candidateIds.map(candidateId => {
         const candidate = candidates[candidateId]
         const party = candidate.party ? parties[candidate.party] : null
         const score = scoreboard[candidateId]

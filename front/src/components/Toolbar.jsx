@@ -27,26 +27,26 @@ const styles = theme => ({
     },
 })
 
-const Toolbar = ({election, auth, match, history, classes, rows, getElectionInfo, onLogout, ...rest}) => {
+const Toolbar = ({election, auth, match, history, classes, rows, getElectionInfo, onLogout}) => {
     if(!election.name) getElectionInfo(match.params.election)
 
     const constituency = election.constituencies && election.constituencies[match.params.constituency]
-
-    const titleParts = []
-    if(election.name) titleParts.push(election.name)
-    if(constituency) titleParts.push(constituency.name)
-    if(constituency) titleParts.push(constituency.id)
 
     return (
         <AppBar
             position='fixed'
             className={classes.appBar}
-            {...rest}
         >
             <MuiToolbar className={classes.toolbar} style={{paddingBottom: `${(rows - 1) * 64}px`}}>
-                <Typography variant="title" color="inherit" className={classes.flex}>
-                    {titleParts.length > 0 ? titleParts.join(' / ') : 'Vaalikone'}
-                </Typography>
+                <div className={classes.flex}>
+                    <Typography variant="title" color="inherit">
+                        {election.name || 'Vaalikone'}
+                    </Typography>
+
+                    <Typography variant='caption'>
+                        {constituency ? constituency.name : 'Valitse vaalipiiri'}
+                    </Typography>
+                </div>
 
                 <Button
                     variant='raised'
