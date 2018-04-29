@@ -23,10 +23,13 @@ export function compareAnswers(a, b) {
     return Math.max(a, b) - Math.min(a, b)
 }
 
-export async function getAll() {
+export async function getAllByConstituency(constituencyId: Number) {
     const candidates = await knex
         .select('*')
         .from('candidates')
+        .where({
+            election_constituency   : constituencyId,
+        })
     
     return candidates.reduce((acc, candidate) => {
         acc[candidate.id] = {

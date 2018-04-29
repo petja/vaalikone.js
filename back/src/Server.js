@@ -53,11 +53,11 @@ app.get('/api/constituency/:constituency/questions/:question/answers',
     QuestionController.GetAnswers
 )
 
-/*app.get('/api/constituency/:constituency/candidates',
+app.get('/api/constituency/:constituency/candidates',
     CandidateController.GetByConstituency
 )
 
-app.get('/api/candidates/:candidate',
+/*app.get('/api/candidates/:candidate',
     CandidateController.GetById
 )*/
 
