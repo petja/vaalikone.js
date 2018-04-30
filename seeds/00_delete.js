@@ -4,6 +4,7 @@ exports.seed = async (knex, Promise) => {
     await knex('questions').del()
     await knex('options').del()
     await knex('candidates').del()
+    await knex('users').del()
     await knex('parties').del()
     await knex('constituencies').del()
     await knex('elections').del()

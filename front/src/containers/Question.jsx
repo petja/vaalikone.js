@@ -28,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
             {id: optionId, text: state.root.options[optionId]}
         )),
 
-        currentAnswer       : state.root.answers[state.activeQuestion],
+        currentAnswer       : state.root.answers[state.root.activeQuestion],
 
         userRole            : (state.root.auth ? state.root.auth.user.role : null),
 

@@ -23,7 +23,7 @@ export async function loginWithEmailPassword(email: String, password: String): P
     const candidateRows = await knex
         .select('candidates.id')
         .from('candidates')
-        .join('users')
+        .join('users', 'candidates.user', 'users.id')
         .where({
             'user'          : userRow.id,
         })
