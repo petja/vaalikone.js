@@ -6,11 +6,13 @@ import MuiToolbar from 'material-ui/Toolbar'
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
+import Avatar from 'material-ui/Avatar'
 import {withStyles} from 'material-ui/styles'
 
 import {Refresh} from '@material-ui/icons'
 
 import {primaryColor} from '../themes/DefaultTheme'
+import * as Session from '../models/Session'
 
 const styles = theme => ({
     toolbar             : {
@@ -30,6 +32,27 @@ const styles = theme => ({
 const Toolbar = ({election, auth, match, history, classes, rows, onLogout}) => {
     const constituency = election.constituencies && election.constituencies[match.params.constituency]
 
+    const clearButton = (
+        <Button
+            variant='raised'
+            onClick={() => {
+                history.push('/')
+                onLogout()
+            }}
+        >
+            <Refresh />
+            Aloita alusta
+        </Button>
+    )
+
+    const avatar = (
+        <Avatar>
+            P
+        </Avatar>
+    )
+
+    const rightSide = (Session.get() ? avatar : clearButton)
+
     return (
         <AppBar
             position='fixed'
@@ -46,16 +69,7 @@ const Toolbar = ({election, auth, match, history, classes, rows, onLogout}) => {
                     </Typography>
                 </div>
 
-                <Button
-                    variant='raised'
-                    onClick={() => {
-                        history.push('/')
-                        onLogout()
-                    }}
-                >
-                    <Refresh />
-                    Aloita alusta
-                </Button>
+                {rightSide}
             </MuiToolbar>
         </AppBar>
     )

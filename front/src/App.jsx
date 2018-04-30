@@ -21,6 +21,7 @@ import {REHYDRATE} from './actions'
 import MainLayout from './containers/MainLayout.jsx'
 import LandingLayout from './containers/LandingLayout.jsx'
 import LoginView from './containers/LoginView.jsx'
+import LoginDialog from './containers/LoginDialog.jsx'
 
 import {ThemeProvider} from './themes/DefaultTheme'
 
@@ -31,13 +32,17 @@ render((
     <ThemeProvider>
         <Provider store={store}>
             <ConnectedRouter history={history}>
-                <Switch>
-                    <Route exact path='/' component={() => 'Please use election specific URL'} />
+                <div>
+                    <LoginDialog />
 
-                    <Route exact path='/login' component={LoginView} />
-                    <Route exact path='/:election' component={LandingLayout} />
-                    <Route path='/:election/:constituency' component={MainLayout} />
-                </Switch>
+                    <Switch>
+                        <Route exact path='/' component={() => 'Please use election specific URL'} />
+
+                        <Route exact path='/login' component={LoginView} />
+                        <Route exact path='/:election' component={LandingLayout} />
+                        <Route path='/:election/:constituency' component={MainLayout} />
+                    </Switch>
+                </div>
             </ConnectedRouter>
         </Provider>
     </ThemeProvider>

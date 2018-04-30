@@ -1,5 +1,5 @@
 import store from './store'
-import * as User from './models/User'
+//import * as User from './models/User'
 import localForage from './models/db'
 import history from './history'
 
