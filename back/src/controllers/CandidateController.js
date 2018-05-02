@@ -25,3 +25,14 @@ export const GetParties = async (req, res, next) => {
 
     res.json(parties)
 }
+
+export const CheckTokenPermission = (req, res, next) => {
+    const candidate = req.params.candidate
+    const { candidates } = req.user
+
+    if (candidates.includes(candidate)) return next()
+
+    res.status(403).json({
+        error: `Modifying or reading information of the requested candidate isn't permitted with the supplied JWT token`,
+    })
+}

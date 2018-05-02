@@ -34,9 +34,8 @@ const adminMiddleware = jwt({
     aud: 'admin',
 })
 
-const candidateMiddleware = jwt({
+const JWTMiddleware = jwt({
     secret: JWT_SECRET,
-    aud: 'candidate',
 })
 
 // GET API
@@ -59,7 +58,7 @@ app.get(
     CandidateController.GetByConstituency
 )
 
-app.get('/api/candidates/:candidate', CandidateController.GetById)
+//app.get('/api/candidates/:candidate', CandidateController.GetById)
 
 // POST API
 app.post('/api/results', GetResults)
@@ -68,10 +67,21 @@ app.post('/api/login', Login)
 app.put('/api/questions', QuestionController.Create)
 
 // Authorized endpoints
-app.get('/api/answers', candidateMiddleware, GetCandidateAnswers)
-app.get('/api/roles', candidateMiddleware, UserController.GetRoles)
-app.get('/api/answer/:questionId', candidateMiddleware, GetAnswer)
-app.post('/api/answer/:questionId', candidateMiddleware, SetAnswer)
+app.get('/api/answers', JWTMiddleware, GetCandidateAnswers)
+app.get('/api/roles', JWTMiddleware, UserController.GetRoles)
+
+app.get(
+    '/api/candidates/:candidate/answer/:questionId',
+    JWTMiddleware,
+    CandidateController.CheckTokenPermission,
+    GetAnswer
+)
+app.post(
+    '/api/candidates/:candidate/answer/:questionId',
+    JWTMiddleware,
+    CandidateController.CheckTokenPermission,
+    SetAnswer
+)
 
 app.all('/api/*', (req, res) => res.status(404).end('Not found'))
 
