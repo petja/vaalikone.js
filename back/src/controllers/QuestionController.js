@@ -13,3 +13,11 @@ export const GetByConstituency = async (req, res, next) => {
 
     res.json(questions)
 }
+
+export const Create = async (req, res, next) => {
+    const { content, options, constituencies } = req.body
+
+    await Question.create(content, options, constituencies)
+
+    res.status(201).end()
+}

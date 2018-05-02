@@ -1,9 +1,7 @@
 import knex from './db'
 
 export async function getOptions(): Promise {
-    const options = await knex
-        .select('*')
-        .from('options')
+    const options = await knex.select('*').from('options')
 
     return options.reduce((acc, option) => {
         acc[option.id] = option.text
@@ -17,7 +15,7 @@ export async function getAnswers(questionId: Number): object[] {
         .select('candidate', 'option', 'reasoning')
         .from('candidate_answers')
         .where({
-            question            : questionId,
+            question: questionId,
         })
 }
 
@@ -26,19 +24,21 @@ export async function getByConstituency(constituencyId: Number) {
         .select('questions.id', 'questions.content', 'question_options.option')
         .from('questions')
         .join('question_options', 'question_options.question', 'questions.id')
-        /*.where({
-            constituency            : constituencyId,
-        })*/
-
-        // TODO
+        .join(
+            'question_constituencies',
+            'question_constituencies.question',
+            'questions.id'
+        )
+        .where({
+            constituency: constituencyId,
+        })
 
     return questions.reduce((acc, question) => {
-
         // If question doesn't already exist in the reduced object
         if (!acc[question.id]) {
             acc[question.id] = {
-                text                : question.content,
-                options             : [],
+                text: question.content,
+                options: [],
             }
         }
 
@@ -50,8 +50,14 @@ export async function getByConstituency(constituencyId: Number) {
 
 // Whenever candidate answers the question,
 // push the change to the database
-export async function setAnswer(candidateId: number, questionId: number, optionId: number, reasoning: String): Promise {
-    return knex.raw(`
+export async function setAnswer(
+    candidateId: number,
+    questionId: number,
+    optionId: number,
+    reasoning: String
+): Promise {
+    return knex.raw(
+        `
         INSERT INTO \`candidate_answers\`
             (\`candidate\`, \`question\`, \`option\`, \`reasoning\`)
         VALUES
@@ -59,12 +65,47 @@ export async function setAnswer(candidateId: number, questionId: number, optionI
         ON DUPLICATE KEY UPDATE
             \`option\` = ?,
             \`reasoning\` = ?
-    `, [
-        candidateId,
-        questionId,
-        optionId,
-        reasoning,
-        optionId,
-        reasoning,
-    ])
+    `,
+        [candidateId, questionId, optionId, reasoning, optionId, reasoning]
+    )
+}
+
+export async function create(
+    content: string,
+    options: number[],
+    constituencies: number[]
+): Promise {
+    return await knex.transaction(async trx => {
+        // Create question and store its ID
+        const question = (await trx
+            .insert({
+                content,
+            })
+            .into('questions')
+            .timeout(1000))[0]
+
+        // Row for each option
+        const optionRows = options.map(option => ({
+            option,
+            question,
+        }))
+
+        await trx
+            .insert(optionRows)
+            .into('question_options')
+            .timeout(1000)
+
+        // Row for each constituency
+        const constituencyRows = constituencies.map(constituency => ({
+            constituency,
+            question,
+        }))
+
+        await trx
+            .insert(constituencyRows)
+            .into('question_constituencies')
+            .timeout(1000)
+
+        return question
+    })
 }
