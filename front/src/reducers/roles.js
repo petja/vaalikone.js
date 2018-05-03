@@ -1,5 +1,6 @@
 const initialState = {
     currentRole: null,
+    dialogOpen: false,
     fetched: false,
     list: [],
 }
@@ -22,6 +23,19 @@ export default (state = initialState, action) => {
                 ...state,
                 currentRole: action.roleIndex,
             }
+
+            break
+
+        case 'TOGGLE_AUTH_DIALOG':
+            return {
+                ...state,
+                dialogOpen: !state.dialogOpen,
+            }
+
+            break
+
+        case 'LOGOUT':
+            return { ...initialState }
 
             break
 

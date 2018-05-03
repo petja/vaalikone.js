@@ -36,7 +36,7 @@ export async function loginWithEmailPassword(
         },
         JWT_SECRET,
         {
-            expiresIn: '1h',
+            expiresIn: '5min',
         }
     )
 

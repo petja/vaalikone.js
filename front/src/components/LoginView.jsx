@@ -6,156 +6,111 @@ import React from 'react'
 import Typography from 'material-ui/Typography'
 import TextField from 'material-ui/TextField'
 import Button from 'material-ui/Button'
-import Paper from 'material-ui/Paper'
-import {withStyles} from 'material-ui/styles'
-
-// Third party
-import SwipeableViews from 'react-swipeable-views'
-
-const PAGE_EMAIL = 0
-const PAGE_PASSWORD = 1
+import { DialogContent, DialogTitle } from 'material-ui/Dialog'
+import { withStyles } from 'material-ui/styles'
 
 const styles = theme => ({
-    root            : {
-        maxWidth        : '25em',
-        margin          : '10em auto',
-        padding         : '2em',
+    root: {
+        maxWidth: '25em',
+        margin: '10em auto',
+        padding: '2em',
     },
-    button          : {
-        marginTop       : '1em',
-        float           : 'right',
+    button: {
+        marginTop: '1em',
+        float: 'right',
     },
-    center          : {
-        padding         : '4em 0',
+    center: {
+        padding: '4em 0',
     },
 })
 
 class LoginView extends React.Component {
-    state = {
-        page                : PAGE_EMAIL,
-    }
+    state = {}
 
     render() {
+        const { classes } = this.props
 
-        const {classes} = this.props
+        const form = (
+            <form onSubmit={this.handleSubmit} action="#">
+                <TextField
+                    label="Sähköpostiosoite"
+                    type="email"
+                    name="email"
+                    required
+                    fullWidth
+                    autoFocus
+                    onChange={this.setFieldValue}
+                />
 
-        const nextButton = (
-            <Button
-                variant='raised'
-                color='secondary'
-                children='Jatka'
-                type='submit'
-                className={classes.button}
-            />
-        )
+                <br />
+                <br />
 
-        const emailPage = (
-            <form onSubmit={this.handleSubmit} action='#'>
-                <div className={classes.center}>
-                    <TextField
-                        label='Sähköpostiosoite'
-                        type='email'
-                        name='email'
-                        required
-                        fullWidth
-                        autoFocus
-                        onChange={this.setFieldValue}
-                    />
-                </div>
+                <TextField
+                    label="Salasana"
+                    type="password"
+                    name="password"
+                    required
+                    fullWidth
+                    autoFocus
+                    onChange={this.setFieldValue}
+                />
 
-                {nextButton}
-            </form>
-        )
-
-        const passwordPage = (
-            <form onSubmit={this.handleSubmit} action='#'>
-                <div className={classes.center}>
-                    <TextField
-                        label='Salasana'
-                        type='password'
-                        name='password'
-                        required
-                        fullWidth
-                        autoFocus
-                        onChange={this.setFieldValue}
-                    />
-                </div>
-
-                {nextButton}
-            </form>
-        )
-
-        const beforeLoginView = (
-            <React.Fragment>
-                <Typography variant='display1'>Kirjaudu sisään</Typography>
-                <Typography>käyttäen puoluetoimiston sinulle jakamia tunnuksia</Typography>
-
-                <SwipeableViews disabled index={this.state.page}>
-                    {emailPage}
-                    {passwordPage}
-                </SwipeableViews>
-            </React.Fragment>
-        )
-
-        const afterLoginView = (
-            <React.Fragment>
-                <Typography variant='display1' gutterBottom>Olet kirjautunut sisään</Typography>
+                <br />
+                <br />
 
                 <Button
-                    onClick={this.props.onLogout}
-                    variant='raised'
-                    children='Kirjaudu ulos'
+                    variant="raised"
+                    color="secondary"
+                    children="Kirjaudu"
+                    type="submit"
+                    className={classes.button}
                 />
-            </React.Fragment>
+            </form>
         )
 
         return (
-            <Paper classes={{root: classes.root}}>
-                {this.props.loggedIn ? afterLoginView : beforeLoginView}
-            </Paper>
+            <React.Fragment>
+                <DialogTitle>Kirjaudu sisään</DialogTitle>
+                <DialogContent>{form}</DialogContent>
+            </React.Fragment>
         )
-
     }
 
     handleSubmit = e => {
         e.preventDefault()
-
-        if (this.state.page === PAGE_EMAIL) this.goPasswordPage()
-        if (this.state.page === PAGE_PASSWORD) this.initLogin()
+        this.initLogin()
     }
 
     setFieldValue = e => {
         this.setState({
-            [e.target.name]     : e.target.value,
+            [e.target.name]: e.target.value,
         })
     }
 
-    async initLogin () {
-
+    async initLogin() {
         const loginResp = await fetch('/api/login', {
-            method              : 'POST',
-            headers             : {
-                'Content-Type'      : 'application/json',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-            body                : JSON.stringify({
-                email               : this.state.email,
-                password            : this.state.password,
-            })
+            body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password,
+            }),
         }).then(resp => resp.json())
 
         await this.props.onLogin(loginResp.token)
-
     }
 
     goEmailPage() {
         this.setState({
-            page                : PAGE_EMAIL,
+            page: PAGE_EMAIL,
         })
     }
 
     goPasswordPage() {
         this.setState({
-            page                : PAGE_PASSWORD,
+            page: PAGE_PASSWORD,
         })
     }
 }

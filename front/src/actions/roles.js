@@ -1,5 +1,9 @@
 import store from '../store'
 
+export const TOGGLE_AUTH_DIALOG = roleIndex => ({
+    type: 'TOGGLE_AUTH_DIALOG',
+})
+
 export const SET_ROLE = roleIndex => ({
     type: 'SET_ROLE',
     roleIndex,

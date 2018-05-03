@@ -5,8 +5,8 @@ import Avatar from 'material-ui/Avatar'
 
 import { Person } from '@material-ui/icons'
 
-const RoleListItem = ({ role, changeRole }) => (
-    <ListItem button onClick={changeRole} key={role}>
+const RoleListItem = ({ role, setRole }) => (
+    <ListItem button onClick={setRole} key={role}>
         <ListItemAvatar>
             <Avatar>
                 <Person />
