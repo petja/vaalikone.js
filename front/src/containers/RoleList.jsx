@@ -5,6 +5,7 @@ import RoleList from '../components/RoleList.jsx'
 
 const mapStateToProps = (state, ownProps) => ({
     auth: state.root.auth,
+    currentRole: state.roles.currentRole,
     fetched: state.roles.fetched,
     roles: state.roles.list,
 })

@@ -43,16 +43,19 @@ const Toolbar = ({
         election.constituencies &&
         election.constituencies[match.params.constituency]
 
+    const loginButton = (
+        <Button onClick={openAuthDialog}>Kirjaudu sisään</Button>
+    )
+
     const clearButton = (
         <Button
-            variant="raised"
             onClick={() => {
-                history.push('/')
+                history.push('/' + election.slug)
                 onLogout()
             }}
         >
             <Refresh />
-            Aloita alusta
+            &nbsp;Aloita alusta
         </Button>
     )
 
@@ -66,7 +69,7 @@ const Toolbar = ({
         ? avatar
         : constituency
             ? clearButton
-            : avatar
+            : loginButton
 
     return (
         <AppBar position="fixed" className={classes.appBar}>

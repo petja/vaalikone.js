@@ -5,7 +5,15 @@ import { DialogTitle } from 'material-ui/Dialog'
 
 import RoleListItem from './RoleListItem.jsx'
 
-const RoleList = ({ auth, fetched, fetchRoles, roles, setRole, logout }) => {
+const RoleList = ({
+    auth,
+    currentRole,
+    fetchRoles,
+    fetched,
+    logout,
+    roles,
+    setRole,
+}) => {
     if (auth && !fetched) fetchRoles()
 
     return (
@@ -15,7 +23,8 @@ const RoleList = ({ auth, fetched, fetchRoles, roles, setRole, logout }) => {
                 {roles.map((role, roleIndex) => (
                     <RoleListItem
                         role={role}
-                        key={role.candidateId}
+                        selected={roleIndex === currentRole}
+                        key={roleIndex}
                         setRole={() => setRole(roleIndex)}
                     />
                 ))}

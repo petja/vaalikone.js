@@ -7,7 +7,8 @@ const JWT_SECRET = 'VAALIKONE_NOT_FOR_PRODUCTION'
 
 export async function loginWithEmailPassword(
     email: String,
-    password: String
+    password: String,
+    sessionLength: String = '5min'
 ): Promise {
     // Fetch user from the database
     const userRow = await knex
@@ -36,7 +37,7 @@ export async function loginWithEmailPassword(
         },
         JWT_SECRET,
         {
-            expiresIn: '5min',
+            expiresIn: sessionLength,
         }
     )
 
@@ -69,18 +70,47 @@ export async function getRoles(
         })
 }
 
-export async function getFullRoles(userId: number) {
-    return await knex
+export function getFullRoles(userId: number) {
+    return Promise.all([
+        getEditorRoles(userId),
+        getCandidateRoles(userId),
+    ]).then(roles => [...roles[0], ...roles[1]])
+}
+
+export async function getEditorRoles(userId: number) {
+    const editorRoles = await knex
+        .select('elections.name AS electionName', 'elections.id AS electionId')
+        .from('election_editors')
+        .join('elections', 'elections.id', 'election_editors.election')
+        .where({
+            user: userId,
+        })
+
+    return editorRoles.map(role => ({
+        editor: true,
+        election: {
+            id: role.electionId,
+            name: role.electionName,
+        },
+    }))
+}
+
+export async function getCandidateRoles(userId: number) {
+    const candidateRoles = await knex
         .select(
-            //'elections.id AS electionId',
-            //'constituencies.id AS constituencyId',
-            'constituencies.name AS constituency',
             'candidates.id AS candidateId',
+            'candidates.number AS number',
+            'constituencies.id AS constituencyId',
+            'constituencies.name AS constituencyName',
+            'constituencies.slug AS constituencySlug',
+            'elections.id AS electionId',
             'elections.name AS electionName',
-            'candidates.number AS number'
+            'parties.id AS partyId',
+            'parties.name AS partyName'
         )
         .from('candidates')
-        .join('users', 'candidates.user', 'users.id')
+        //.join('users', 'candidates.user', 'users.id')
+        .join('parties', 'candidates.party', 'parties.id')
         .join(
             'constituencies',
             'candidates.election_constituency',
@@ -90,4 +120,24 @@ export async function getFullRoles(userId: number) {
         .where({
             user: userId,
         })
+
+    return candidateRoles.map(role => ({
+        candidate: {
+            id: role.candidateId,
+            number: role.number,
+        },
+        constituency: {
+            id: role.constituencyId,
+            name: role.constituencyName,
+            slug: role.constituencySlug,
+        },
+        party: {
+            id: role.partyId,
+            name: role.partyName,
+        },
+        election: {
+            id: role.electionId,
+            name: role.electionName,
+        },
+    }))
 }

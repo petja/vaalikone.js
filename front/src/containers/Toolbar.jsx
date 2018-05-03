@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     onLogout: () => dispatch(LOGOUT()),
-    openAuthDialog: () => dispatch(TOGGLE_AUTH_DIALOG()),
+    openAuthDialog: () => dispatch(TOGGLE_AUTH_DIALOG(true)),
 })
 
 const container = connect(mapStateToProps, mapDispatchToProps)(Toolbar)

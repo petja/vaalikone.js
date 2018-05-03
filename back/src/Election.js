@@ -2,7 +2,7 @@ import knex from './db'
 
 export async function getBySlug(slug: string): Promise<object> {
     const election = await knex
-        .select('id', 'name')
+        .select('id', 'name', 'slug')
         .from('elections')
         .where({
             slug,

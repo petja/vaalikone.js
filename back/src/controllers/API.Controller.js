@@ -7,7 +7,7 @@ import * as Election from '../Election'
 
 // This is required for async/await functions
 const asyncMiddleware = fn => (req, res, next) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
+    Promise.resolve(fn(req, res, next)).catch(next)
 }
 
 export const GetOptions = asyncMiddleware(async (req, res, next) => {
@@ -31,7 +31,11 @@ export const GetResults = asyncMiddleware(async (req, res, next) => {
 })
 
 export const Login = asyncMiddleware(async (req, res, next) => {
-    const jwt = await User.loginWithEmailPassword(req.body.email, req.body.password)
+    const jwt = await User.loginWithEmailPassword(
+        req.body.email,
+        req.body.password,
+        req.query.sessionLength
+    )
 
     res.json(jwt)
 })
@@ -51,7 +55,7 @@ export const GetElection = asyncMiddleware(async (req, res, next) => {
 })
 
 export const GetAnswer = asyncMiddleware(async (req, res, next) => {
-    const {questionId} = req.params
+    const { questionId } = req.params
     const userId = req.user.sub
     const candidateId = await Candidate.getByUID(userId).id
 
@@ -61,14 +65,19 @@ export const GetAnswer = asyncMiddleware(async (req, res, next) => {
 })
 
 export const SetAnswer = asyncMiddleware(async (req, res, next) => {
-    const {questionId} = req.params
+    const { questionId } = req.params
     const userId = req.user.sub
     const candidateId = await Candidate.getByUID(userId).id
 
     const optionId: Number = req.body.option || null
     const reasoning: String = req.body.reasoning || null
 
-    const answer = await Question.setAnswer(candidateId, questionId, optionId, reasoning)
+    const answer = await Question.setAnswer(
+        candidateId,
+        questionId,
+        optionId,
+        reasoning
+    )
 
     res.json(answer)
 })

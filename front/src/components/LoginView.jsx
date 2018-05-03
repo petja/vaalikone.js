@@ -11,16 +11,10 @@ import { withStyles } from 'material-ui/styles'
 
 const styles = theme => ({
     root: {
-        maxWidth: '25em',
-        margin: '10em auto',
-        padding: '2em',
+        textAlign: 'center',
     },
     button: {
         marginTop: '1em',
-        float: 'right',
-    },
-    center: {
-        padding: '4em 0',
     },
 })
 
@@ -32,6 +26,9 @@ class LoginView extends React.Component {
 
         const form = (
             <form onSubmit={this.handleSubmit} action="#">
+                <br />
+                <br />
+
                 <TextField
                     label="Sähköpostiosoite"
                     type="email"
@@ -51,7 +48,6 @@ class LoginView extends React.Component {
                     name="password"
                     required
                     fullWidth
-                    autoFocus
                     onChange={this.setFieldValue}
                 />
 
@@ -69,10 +65,10 @@ class LoginView extends React.Component {
         )
 
         return (
-            <React.Fragment>
+            <div className={classes.root}>
                 <DialogTitle>Kirjaudu sisään</DialogTitle>
                 <DialogContent>{form}</DialogContent>
-            </React.Fragment>
+            </div>
         )
     }
 

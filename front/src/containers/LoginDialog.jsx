@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClose: () => dispatch(TOGGLE_AUTH_DIALOG()),
+    onClose: () => dispatch(TOGGLE_AUTH_DIALOG(false)),
 })
 
 const container = connect(mapStateToProps, mapDispatchToProps)(LoginDialog)

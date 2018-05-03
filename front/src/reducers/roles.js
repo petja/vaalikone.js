@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 currentRole: action.roleIndex,
+                dialogOpen: true,
             }
 
             break
@@ -29,7 +30,7 @@ export default (state = initialState, action) => {
         case 'TOGGLE_AUTH_DIALOG':
             return {
                 ...state,
-                dialogOpen: !state.dialogOpen,
+                dialogOpen: action.status,
             }
 
             break

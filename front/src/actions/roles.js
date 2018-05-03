@@ -1,13 +1,18 @@
 import store from '../store'
 
-export const TOGGLE_AUTH_DIALOG = roleIndex => ({
+export const TOGGLE_AUTH_DIALOG = status => ({
     type: 'TOGGLE_AUTH_DIALOG',
+    status,
 })
 
-export const SET_ROLE = roleIndex => ({
-    type: 'SET_ROLE',
-    roleIndex,
-})
+export const SET_ROLE = roleIndex => async dispatch => {
+    await dispatch({
+        type: 'SET_ROLE',
+        roleIndex,
+    })
+
+    setTimeout(() => dispatch(TOGGLE_AUTH_DIALOG(false)), 750)
+}
 
 export const FETCH_ROLES = () => async dispatch => {
     const state = store.getState()
