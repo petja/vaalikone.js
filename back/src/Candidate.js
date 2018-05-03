@@ -111,16 +111,24 @@ export async function scoreCandidates(userResponses: object): object {
     }, {})
 }
 
-export async function getByUID(userId: Number): Number {
-    const candidate = await knex
-        .select('id')
+export async function getById(candidateId: Number): Promise<object> {
+    return await knex
+        .select('*')
         .from('candidates')
         .where({
-            user: userId,
+            id          : candidateId,
         })
         .first()
+}
 
-    return candidate.id
+export async function getByUID(userId: Number): Promise<object> {
+    return await knex
+        .select('*')
+        .from('candidates')
+        .where({
+            user       : userId,
+        })
+        .first()
 }
 
 export async function getAnswers(candidateId: Number): object[] {

@@ -53,7 +53,7 @@ export const GetElection = asyncMiddleware(async (req, res, next) => {
 export const GetAnswer = asyncMiddleware(async (req, res, next) => {
     const {questionId} = req.params
     const userId = req.user.sub
-    const candidateId = await Candidate.getByUID(userId)
+    const candidateId = await Candidate.getByUID(userId).id
 
     const answer = await Candidate.getAnswer(candidateId, questionId)
 
@@ -63,7 +63,7 @@ export const GetAnswer = asyncMiddleware(async (req, res, next) => {
 export const SetAnswer = asyncMiddleware(async (req, res, next) => {
     const {questionId} = req.params
     const userId = req.user.sub
-    const candidateId = await Candidate.getByUID(userId)
+    const candidateId = await Candidate.getByUID(userId).id
 
     const optionId: Number = req.body.option || null
     const reasoning: String = req.body.reasoning || null

@@ -13,13 +13,13 @@ export async function getBySlug(slug: string): Promise<object> {
         .select('id', 'name', 'slug')
         .from('constituencies')
         .where({
-            election            : election.id,
+            election: election.id,
         })
         .orderBy('name')
         .reduce((acc, constituency) => {
             acc[constituency.slug] = {
-                id                  : constituency.id,
-                name                : constituency.name,
+                id: constituency.id,
+                name: constituency.name,
             }
 
             return acc
