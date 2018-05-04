@@ -1,4 +1,4 @@
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import {
     SET_ANSWER_AND_UPDATE_SCORES,
@@ -13,45 +13,50 @@ const mapStateToProps = (state, ownProps) => {
     const question = state.root.questions[state.root.activeQuestion]
     const election = state.root.election
 
-    if(!question) {
+    const userRole = state.roles.list[state.roles.currentRole] || {}
+
+    if (!question) {
         return {
             election,
+            userRole,
         }
     }
 
     return {
         ...question,
 
-        questionId          : state.root.activeQuestion,
+        questionId: state.root.activeQuestion,
 
-        options             : Object.values(question.options).map(optionId => (
-            {id: optionId, text: state.root.options[optionId]}
-        )),
+        options: Object.values(question.options).map(optionId => ({
+            id: optionId,
+            text: state.root.options[optionId],
+        })),
 
-        currentAnswer       : state.root.answers[state.root.activeQuestion],
+        currentAnswer: state.root.answers[state.root.activeQuestion],
 
-        userRole            : (state.root.auth ? state.root.auth.user.role : null),
+        userRole,
 
-        election            : state.root.election,
+        election: state.root.election,
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    onAnswer                : (questionId, answerId) => dispatch(SET_ANSWER_AND_UPDATE_SCORES(questionId, answerId)),
-    onNextQuestion          : () => {
+    onAnswer: (questionId, answerId) =>
+        dispatch(SET_ANSWER_AND_UPDATE_SCORES(questionId, answerId)),
+
+    onNextQuestion: () => {
         document.body.scrollTo({
             top: 0,
             behavior: 'smooth',
         })
         dispatch(NEXT_QUESTION())
     },
-    onRemoveAnswer          : (questionId) => dispatch(REMOVE_ANSWER(questionId)),
-    fetchQuestions          : () => dispatch(FETCH_QUESTIONS()),
+
+    onRemoveAnswer: questionId => dispatch(REMOVE_ANSWER(questionId)),
+
+    fetchQuestions: () => dispatch(FETCH_QUESTIONS()),
 })
 
-const container = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Question)
+const container = connect(mapStateToProps, mapDispatchToProps)(Question)
 
 export default container

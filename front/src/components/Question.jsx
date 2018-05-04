@@ -5,43 +5,57 @@ import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
 import Radio from 'material-ui/Radio'
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
+import List, {
+    ListItem,
+    ListItemSecondaryAction,
+    ListItemText,
+} from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 
 import { withRouter } from 'react-router-dom'
-import {isEmpty} from 'lodash'
+import { isEmpty } from 'lodash'
 
 import ReasoningList from '../containers/ReasoningList.jsx'
 import ReasoningEditor from '../containers/ReasoningEditor.jsx'
+import QuestionList from '../containers/QuestionList.jsx'
 
 //import {CheckCircle} from '@material-ui/icons'
 
 const styles = theme => ({
-    root            : {
-        padding         : '1em',
+    root: {
+        padding: '1em',
     },
-    picture         : {
-        maxWidth        : '100em',
-        width           : '100%',
+    picture: {
+        maxWidth: '100em',
+        width: '100%',
     },
-    nextButton      : {
-        float           : 'right',
+    nextButton: {
+        float: 'right',
     },
-    section         : {
-        padding         : '1em',
+    section: {
+        padding: '1em',
     },
 })
 
-const Question = ({election, questionId, text, currentAnswer, options = [], onAnswer, onNextQuestion, onRemoveAnswer, fetchQuestions, classes}) => {
+const Question = ({
+    classes,
+    currentAnswer,
+    election,
+    fetchQuestions,
+    onAnswer,
+    onNextQuestion,
+    onRemoveAnswer,
+    options = [],
+    questionId,
+    text,
+    userRole,
+}) => {
+    if (!isEmpty(election) && !questionId) fetchQuestions()
 
-    if(!isEmpty(election) && !questionId) fetchQuestions()
-
-    const headline = (
-        <Typography variant='headline'>{text}</Typography>
-    )
+    const headline = <Typography variant="headline">{text}</Typography>
 
     const inputTitle = (
-        <Typography color='secondary' variant='subheading'>
+        <Typography color="secondary" variant="subheading">
             {'Mitä vastaat?'}
         </Typography>
     )
@@ -53,23 +67,21 @@ const Question = ({election, questionId, text, currentAnswer, options = [], onAn
             onClick={() => onAnswer(questionId, option.id)}
             tabIndex={optionIndex + 1}
         >
-            <Radio
-                checked={currentAnswer === option.id}
-                tabIndex='-1'
+            <Radio checked={currentAnswer === option.id} tabIndex="-1" />
+            <ListItemText
+                inset={currentAnswer !== option.id}
+                primary={option.text}
             />
-            <ListItemText inset={currentAnswer !== option.id} primary={option.text} />
         </ListItem>
     ))
 
-    const optionList = (
-        <List children={optionItems} />
-    )
+    const optionList = <List children={optionItems} />
 
     const nextButton = (
         <Button
-            children='Seuraava kysymys'
-            variant='raised'
-            color='secondary'
+            children="Seuraava kysymys"
+            variant="raised"
+            color="secondary"
             disabled={!currentAnswer}
             className={classes.nextButton}
             onClick={onNextQuestion}
@@ -78,29 +90,26 @@ const Question = ({election, questionId, text, currentAnswer, options = [], onAn
 
     const removeAnswerButton = (
         <Button
-            children='Poista vastaukseni'
+            children="Poista vastaukseni"
             onClick={() => onRemoveAnswer(questionId)}
         />
     )
 
     const skipButton = (
-        <Button
-            children='Ohita kysymys'
-            onClick={onNextQuestion}
-        />
+        <Button children="Ohita kysymys" onClick={onNextQuestion} />
     )
 
-    const secondaryButton = (
-        currentAnswer ?
-        removeAnswerButton :
-        skipButton
-    )
+    const secondaryButton = currentAnswer ? removeAnswerButton : skipButton
 
     return (
         <Paper className={classes.root}>
-            <div className={classes.section}>
-                {headline}
-            </div>
+            <Typography>
+                <pre>{JSON.stringify({ userRole }, null, 2)}</pre>
+            </Typography>
+
+            {userRole.editor ? <QuestionList /> : null}
+
+            <div className={classes.section}>{headline}</div>
 
             <Divider />
 
@@ -113,7 +122,7 @@ const Question = ({election, questionId, text, currentAnswer, options = [], onAn
             <div className={classes.section}>
                 {inputTitle}
                 {optionList}
-                <ReasoningEditor />
+                {userRole.candidate ? <ReasoningEditor /> : null}
             </div>
 
             <Divider />

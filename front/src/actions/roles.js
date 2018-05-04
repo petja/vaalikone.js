@@ -11,7 +11,7 @@ export const SET_ROLE = roleIndex => async dispatch => {
         roleIndex,
     })
 
-    setTimeout(() => dispatch(TOGGLE_AUTH_DIALOG(false)), 750)
+    setTimeout(() => dispatch(TOGGLE_AUTH_DIALOG(false)), 500)
 }
 
 export const FETCH_ROLES = () => async dispatch => {

@@ -7,6 +7,7 @@ import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button'
 import AppBar from 'material-ui/AppBar'
 import Avatar from 'material-ui/Avatar'
+import deepOrange from 'material-ui/colors/deepOrange'
 import { withStyles } from 'material-ui/styles'
 
 import { Refresh, Person } from '@material-ui/icons'
@@ -25,6 +26,10 @@ const styles = theme => ({
     },
     appBar: {
         background: primaryColor['900'],
+        color: '#FFF',
+    },
+    avatar: {
+        background: deepOrange[500],
         color: '#FFF',
     },
 })
@@ -59,14 +64,14 @@ const Toolbar = ({
         </Button>
     )
 
-    const avatar = (
-        <Avatar onClick={openAuthDialog}>
+    const avatar = classes => (
+        <Avatar onClick={openAuthDialog} className={classes.avatar}>
             <Person />
         </Avatar>
     )
 
     const rightSide = Session.get()
-        ? avatar
+        ? avatar(classes)
         : constituency
             ? clearButton
             : loginButton

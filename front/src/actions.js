@@ -49,9 +49,11 @@ export const FETCH_ELECTION_INFO = (
         resp.json()
     )
 
+    const constituency = election.constituencies[constituencySlug]
+
     await dispatch({
         type: 'FETCH_ELECTION_INFO',
-        constituency: election.constituencies[constituencySlug].id,
+        constituency: constituency ? constituency.id : {},
         election,
     })
 }
