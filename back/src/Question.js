@@ -70,19 +70,31 @@ export async function setAnswer(
     )
 }
 
-export async function create(
+export async function create(): Promise {
+    const question = await knex
+        .insert({
+            content: '',
+        })
+        .into('questions')
+        .timeout(1000)
+
+    // New ID is stored in the array as a first item
+    return question[0]
+}
+
+export async function edit(
+    id: number,
     content: string,
     options: number[],
     constituencies: number[]
 ): Promise {
     return await knex.transaction(async trx => {
-        // Create question and store its ID
-        const question = (await trx
-            .insert({
-                content,
-            })
-            .into('questions')
-            .timeout(1000))[0]
+        // Delete old options
+        trx
+            .del()
+            .from('question_options')
+            .where({ question })
+            .timeout(1000)
 
         // Row for each option
         const optionRows = options.map(option => ({
@@ -95,6 +107,13 @@ export async function create(
             .into('question_options')
             .timeout(1000)
 
+        // Delete old constituencies
+        trx
+            .del()
+            .from('question_constituencies')
+            .where({ question })
+            .timeout(1000)
+
         // Row for each constituency
         const constituencyRows = constituencies.map(constituency => ({
             constituency,
@@ -105,7 +124,5 @@ export async function create(
             .insert(constituencyRows)
             .into('question_constituencies')
             .timeout(1000)
-
-        return question
     })
 }

@@ -64,7 +64,9 @@ app.get(
 app.post('/api/results', GetResults)
 app.post('/api/login', Login)
 
+// TODO: Currently we don't validate JWT at all
 app.put('/api/questions', QuestionController.Create)
+app.post('/api/questions/:id', QuestionController.Edit)
 
 // Authorized endpoints
 app.get('/api/answers', JWTMiddleware, GetCandidateAnswers)
